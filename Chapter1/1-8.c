@@ -17,6 +17,11 @@ void main(){
                 numberOfSpaces ++;
                 break;
         }
+
     }
+
+    printf("Number of Tabs:      %d\n", numberOfTabs);
+    printf("Number of New Lines: %d\n", numberOfNewLines);
+    printf("Number of Spaces:    %d\n", numberOfSpaces);
 
 }
