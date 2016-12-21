@@ -42,7 +42,7 @@ void squeezeChar(char s[], int c){
 }
 
 void squeeze(char s1[], char s2[]){
-	int i, j;
+	int i;
 	for(i = 0; s2[i] != '\0'; i++){
 		squeezeChar(s1, s2[i]);
 	}
