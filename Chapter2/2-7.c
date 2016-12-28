@@ -22,8 +22,11 @@ unsigned invert(unsigned x, int p, int n){
 	//Creates a bunch of ones at of length n 
 	unsigned onedBits = (1 << (n)) - 1;
 	printf("onedBits  %d\n", onedBits);
+	//Length of left shift amount the ones to match where we want to 
+	//xor/invert the bits at p through p-n
 	unsigned leftShiftAmount = (p - n + 1);
 	printf("Left Shift Amount %d\n", leftShiftAmount);
+	//Creates the values to xor
 	unsigned XORer = (leftShiftedOne << leftShiftAmount);
 	printf("XORer %d\n", XORer);
 	//^ with x
@@ -32,14 +35,4 @@ unsigned invert(unsigned x, int p, int n){
 
 unsigned getbits(unsigned x, int p, int n){
 	return (x >> (p+1-n)) & ~(~0 << n);
-}
-
-unsigned setbits(unsigned x, int p, int n, int y){
-	p--;
-	double offs = pow(2, p - n);
-	double ons = pow(2, p) - offs;
-
-	x = y | (int) ons;
-
-	return x;
 }
