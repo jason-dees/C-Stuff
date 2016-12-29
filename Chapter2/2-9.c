@@ -9,7 +9,8 @@ int main(){
 	printf("%d\n", bitcount(9));
 	printf("%d\n", bitcount(10));
 	printf("%d\n", bitcount(11));
-	//getbits is 101
+	//Subtracting 1 from x inverts the rightmost bits
+	//x = x & (x-1) keeps the largest bits each round until all bits are 0ed
 }
 
 int bitcount(unsigned x){
