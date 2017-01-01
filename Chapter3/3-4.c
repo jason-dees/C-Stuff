@@ -16,18 +16,6 @@ int main(){
 	printf("%s\n", s);
 }
 
-void readLine(char s[]){
-	int isValid = 1;
-	int i = 0;
-	char c;
-	while(isValid){
-		isValid = i < MAX - 1 && (c = getchar()) != '\n' && c != EOF;
-		s[i] = c;
-		++i;
-	}
-	s[i] = '\0';
-}
-
 void reverse(char s[]){
 	int c, i, j;
 	for(i = 0, j = strlen(s)-1; i < j; i++, j--){
