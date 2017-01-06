@@ -15,13 +15,14 @@ int getop(char []);
 void push(double);
 double pop(void);
 int opis(char []);
+void domathop(char []);
 
 int main(){
-    int type, tripleIndex;
+    int type, mathOpIndex;
     double op2, op3;
     char s[MAXOP];
-    char triple[4];
-    tripleIndex = 0;
+    char mathOp[4];
+    mathOpIndex = 0;
 
     while((type = getop(s)) != EOF){
         switch(type){
@@ -53,36 +54,18 @@ int main(){
             printf("\t%.8g\n", pop());
             break;
         default:
-            triple[tripleIndex++] = type;
-            if(tripleIndex == 3){
-                triple[tripleIndex] = '\0';
-                //do the op~
-                switch(opis(triple)){
-                    case SIN:
-                        push(sin(pop()));
-                        break;
-                    case COS:
-                        push(cos(pop()));
-                        break;
-                    case TAN:
-                        push(tan(pop()));
-                        break;
-                    case EXP:
-                        push(exp(pop()));
-                        break;
-                    case POW:
-                        op2 = pop();
-                        push(pow(pop(), op2));
-                        break;
-                }
-                tripleIndex = 0;
+            mathOp[mathOpIndex++] = type;
+            if(mathOpIndex == 3){
+                mathOp[mathOpIndex] = '\0';
+                domathop(mathOp);
+                mathOpIndex = 0;
             }
             break;
         }
     }
 }
 int opis(char op[]){
-    if(strcmp(op,"sin") == 0){
+    if(strcmp(op, "sin") == 0){
         return SIN;
     }
     if(strcmp(op, "cos") == 0){
@@ -99,6 +82,29 @@ int opis(char op[]){
     }
     return -1;
 }
+
+void domathop(char op[]){
+    double op2;
+    switch(opis(op)){
+        case SIN:
+            push(sin(pop()));
+            break;
+        case COS:
+            push(cos(pop()));
+            break;
+        case TAN:
+            push(tan(pop()));
+            break;
+        case EXP:
+            push(exp(pop()));
+            break;
+        case POW:
+            op2 = pop();
+            push(pow(pop(), op2));
+            break;
+    }
+}
+
 #define MAXVAL 100
 
 int sp = 0;
