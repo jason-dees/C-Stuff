@@ -29,7 +29,6 @@ int main(){
     char s[MAXOP], line[MAXOP];
     char mathOp[4];
     mathOpIndex = 0;
-    while(1){
     readLine(line);
     while((type = getop(s, line)) != EOF){
         switch(type){
@@ -78,6 +77,7 @@ int main(){
             lastPrint = popvar();
             printf("\t%.8g\n", lastPrint);
             mathOpIndex = 0;
+            readLine(line);
             break;
         case ' ':
             while(mathOpIndex-- > 0){// I don't like this but i need to pop extra variables from stuff like tan
@@ -101,7 +101,6 @@ int main(){
             }
             break;
         }
-    }
     }
 }
 int opis(char op[]){
@@ -178,12 +177,12 @@ double pop(void){
     return 0.0;
 }
 
-#include <ctype.h>
 int getch(char []);
 void ungetch(int);
 
 int getop(char s[], char line[]){
-    int i, c;
+    int i, c, hasMinus, hasdig;
+    hasdig = hasMinus = 0;
     while((s[0] = c = getch(line))  == ' ' || c == '\t'){}
     //it is a negative number when it's a - and the next character is a digit
     s[1] = '\0';
@@ -192,19 +191,25 @@ int getop(char s[], char line[]){
     }
 
     i = 0;
-    if(isdigit(c) || c == '-'){
-        while(isdigit(s[++i] = c = getch(line))){}
+    if(c == '-'){
+        i = 1;
+        c = getch(line);
+        hasMinus = 1;
     }
-    else if(c != '.'){
-        return '-';
+
+    if(isdigit(c)){
+        while(isdigit(s[++i] = c = getch(line))){hasdig = 1;}
     }
 
     if(c == '.'){
-        while(isdigit(s[++i] = c = getch(line))){}
+        while(isdigit(s[++i] = c = getch(line))){hasdig = 1;}
     }
 
     s[i] = '\0';
-    ungetch(c);
+    if(hasMinus && !hasdig){
+        ungetch(c);
+        return '-';
+    }
 
     return NUMBER;
 }
@@ -216,6 +221,7 @@ int bufp = 0;
 int linep = 0;
 
 void readLine(char s[]){
+    linep = 0;
 	int isValid = 1;
 	int i = 0;
 	char c;
@@ -228,17 +234,9 @@ void readLine(char s[]){
 }
 
 int getch(char line[]){
-    return (bufp > 0) ? buf[--bufp] : line[linep++];
+    return line[linep++];
 }
 
 void ungetch(int c){
-    if(c == EOF){
-        c = ' ';
-    }
-    if(bufp >= BUFSIZE){
-        printf("ungetch: too many characters\n");
-    }
-    else{
-        buf[bufp++] = c;
-    }
+    linep--;
 }
