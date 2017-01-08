@@ -200,9 +200,6 @@ int getop(char s[]){
     if(isdigit(c) || c == '-'){
         while(isdigit(s[++i] = c = getch())){}
     }
-    else if(c != '.'){
-        return '-';
-    }
 
     if(c == '.'){
         while(isdigit(s[++i] = c = getch())){}

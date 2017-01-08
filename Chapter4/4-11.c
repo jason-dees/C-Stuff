@@ -126,13 +126,16 @@ double pop(void){
 }
 
 #include <ctype.h>
-int getch(void);
-void ungetch(int);
+int getch(char []);
+#define BUFSIZE 100
+
+static int bufp = 0;
 
 int getop(char s[]){
+    static char buf[BUFSIZE];
     int i, c, hasMinus, hasdig;
     hasdig = hasMinus = 0;
-    while((s[0] = c = getch()) == ' ' || c == '\t'){}
+    while((s[0] = c = getch(buf)) == ' ' || c == '\t'){}
     //it is a negative number when it's a - and the next character is a digit
     s[1] = '\0';
     if(!isdigit(c) && c != '.' && c != '-'){
@@ -142,21 +145,21 @@ int getop(char s[]){
     i = 0;
     if(c == '-'){
         i = 1;
-        c = getch();
+        c = getch(buf);
         hasMinus = 1;
     }
 
     if(isdigit(c) || c == '-'){
-        while(isdigit(s[++i] = c = getch())){}
+        while(isdigit(s[++i] = c = getch(buf))){}
     }
 
     if(c == '.'){
-        while(isdigit(s[++i] = c = getch())){}
+        while(isdigit(s[++i] = c = getch(buf))){}
     }
 
     s[i] = '\0';
     if(c != EOF){
-        ungetch(c);
+        buf[bufp++] = c;
     }
     if(hasMinus && !hasdig){
         return '-';
@@ -164,20 +167,7 @@ int getop(char s[]){
 
     return NUMBER;
 }
-#define BUFSIZE 100
 
-char buf[BUFSIZE];
-int bufp = 0;
-
-int getch(void){
+int getch(char buf[]){
     return (bufp > 0) ? buf[--bufp] : getchar();
-}
-
-void ungetch(int c){
-    if(bufp >= BUFSIZE){
-        printf("ungetch: too many characters\n");
-    }
-    else{
-        buf[bufp++] = c;
-    }
 }

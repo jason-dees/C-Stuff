@@ -97,15 +97,12 @@ int getop(char s[]){
     i = 0;
     if(c == '-'){
         i = 1;
-        c = getch(line);
+        c = getch();
         hasMinus = 1;
     }
 
     if(isdigit(c) || c == '-'){
         while(isdigit(s[++i] = c = getch())){}
-    }
-    else if(c != '.'){
-        return '-';
     }
 
     if(c == '.'){
