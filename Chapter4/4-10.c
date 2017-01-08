@@ -29,6 +29,7 @@ int main(){
     char s[MAXOP], line[MAXOP];
     char mathOp[4];
     mathOpIndex = 0;
+    while(1){
     readLine(line);
     while((type = getop(s, line)) != EOF){
         switch(type){
@@ -100,6 +101,7 @@ int main(){
             }
             break;
         }
+    }
     }
 }
 int opis(char op[]){
