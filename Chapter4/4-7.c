@@ -2,8 +2,10 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <ctype.h>
 
 #define MAXOP 100
+#define MAXVAR 123
 #define NUMBER '0'
 #define SIN 1
 #define EXP 2 
@@ -14,12 +16,15 @@
 int getop(char []);
 void push(double);
 double pop(void);
+double popvar(void);
 int opis(char []);
 void domathop(char []);
+double getvariablevalue(double);
 
+double variables[MAXVAR];
 int main(){
-    int type, mathOpIndex;
-    double op2, op3;
+    int type, mathOpIndex, variable;
+    double op1, op2, op3, lastPrint;
     char s[MAXOP];
     char mathOp[4];
     mathOpIndex = 0;
@@ -30,28 +35,55 @@ int main(){
             push(atof(s));
             break;
         case '+':
-            push(pop() + pop());
+            op1 = popvar();
+            op2 = popvar();
+            printf("%f + %f\n", op1, op2);
+            push(op1 + op2);
             break;
         case '*':
-            push(pop() * pop());
+            op1 = popvar();
+            op2 = popvar();
+            push(op1 * op2);
             break;
         case '-':
-            op2 = pop();
-            push(pop() - op2);
+            op2 = popvar();
+            op1 = popvar();
+            push(op1 - op2);
             break;
         case '/':
-            op2 = pop();
+            op2 = popvar();
+            op1 = popvar();
             if(op2 != 0.0){
-                push(pop() / op2);
+                push(op1 / op2);
             }
             break;
         case '%':
-            op2 = pop();
-            op3 = pop() / op2;
+            op2 = popvar();
+            op3 = popvar() / op2;
             push((op3 - (int)op3) * op2);
             break;
+        case '=':
+            op1 = pop();
+            variable = (int)op1;
+            if(islower(variable) || isupper(variable)){
+                variables[variable] = popvar();
+                push(variable);
+            }
+            else{
+                printf("The popped value %f is not a valid variable \n", op1);
+            }
+            break;
         case '\n':
-            printf("\t%.8g\n", pop());
+            lastPrint = popvar();
+            printf("\t%.8g\n", lastPrint);
+            mathOpIndex = 0;
+            break;
+        case ' ':
+            while(mathOpIndex-- > 0){// I don't like this but i need to pop extra variables from stuff like tan
+            //how can i do that without this?
+                pop();
+            }
+            mathOpIndex = 0;
             break;
         default:
             mathOp[mathOpIndex++] = type;
@@ -59,6 +91,12 @@ int main(){
                 mathOp[mathOpIndex] = '\0';
                 domathop(mathOp);
                 mathOpIndex = 0;
+            }
+            else if(mathOpIndex == 1 && (islower(type) || isupper(type))){
+                push(type);
+                if(variables[type] != 0){
+                    mathOpIndex = 0; 
+                }
             }
             break;
         }
@@ -87,22 +125,35 @@ void domathop(char op[]){
     double op2;
     switch(opis(op)){
         case SIN:
-            push(sin(pop()));
+            push(sin(popvar()));
             break;
         case COS:
-            push(cos(pop()));
+            push(cos(popvar()));
             break;
         case TAN:
-            push(tan(pop()));
+            op2 = popvar();
+            push(tan(op2));
             break;
         case EXP:
-            push(exp(pop()));
+            push(exp(popvar()));
             break;
         case POW:
-            op2 = pop();
-            push(pow(pop(), op2));
+            op2 = popvar();
+            push(pow(popvar(), op2));
             break;
     }
+}
+
+double getvariablevalue(double val){
+    int intval = (int)val;
+    if(intval == val && (islower(intval) || isupper(intval)) && variables[intval] != 0){
+        return variables[intval];
+    }
+    return val;
+}
+
+double popvar(void){
+    return getvariablevalue(pop());
 }
 
 #define MAXVAL 100
@@ -167,6 +218,7 @@ int getop(char s[]){
 
     return NUMBER;
 }
+
 #define BUFSIZE 100
 
 char buf[BUFSIZE];

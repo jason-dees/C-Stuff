@@ -181,7 +181,8 @@ int getch(void);
 void ungetch(int);
 
 int getop(char s[]){
-    int i, c;
+    int i, c, hasMinus, hasdig;
+    hasdig = hasMinus = 0;
     while((s[0] = c = getch()) == ' ' || c == '\t'){}
     //it is a negative number when it's a - and the next character is a digit
     s[1] = '\0';
@@ -190,6 +191,12 @@ int getop(char s[]){
     }
 
     i = 0;
+    if(c == '-'){
+        i = 1;
+        c = getch(line);
+        hasMinus = 1;
+    }
+
     if(isdigit(c) || c == '-'){
         while(isdigit(s[++i] = c = getch())){}
     }
@@ -205,10 +212,12 @@ int getop(char s[]){
     if(c != EOF){
         ungetch(c);
     }
+    if(hasMinus && !hasdig){
+        return '-';
+    }
 
     return NUMBER;
 }
-
 #define BUFSIZE 100
 
 char buf[BUFSIZE];
