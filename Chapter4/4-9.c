@@ -37,7 +37,6 @@ int main(){
         case '+':
             op1 = popvar();
             op2 = popvar();
-            printf("%f + %f\n", op1, op2);
             push(op1 + op2);
             break;
         case '*':

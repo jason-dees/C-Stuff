@@ -13,23 +13,24 @@
 #define COS 4 
 #define POW 5 
 
-int getop(char []);
+int getop(char [], char []);
 void push(double);
 double pop(void);
 double popvar(void);
 int opis(char []);
 void domathop(char []);
 double getvariablevalue(double);
+void readLine(char []);
 
 double variables[MAXVAR];
 int main(){
     int type, mathOpIndex, variable;
     double op1, op2, op3, lastPrint;
-    char s[MAXOP];
+    char s[MAXOP], line[MAXOP];
     char mathOp[4];
     mathOpIndex = 0;
-
-    while((type = getop(s)) != EOF){
+    readLine(line);
+    while((type = getop(s, line)) != EOF){
         switch(type){
         case NUMBER:
             push(atof(s));
@@ -175,12 +176,13 @@ double pop(void){
     return 0.0;
 }
 
-int getch(void);
+#include <ctype.h>
+int getch(char []);
 void ungetch(int);
 
-int getop(char s[]){
+int getop(char s[], char line[]){
     int i, c;
-    while((s[0] = c = getch()) == ' ' || c == '\t'){}
+    while((s[0] = c = getch(line))  == ' ' || c == '\t'){}
     //it is a negative number when it's a - and the next character is a digit
     s[1] = '\0';
     if(!isdigit(c) && c != '.' && c != '-'){
@@ -189,34 +191,48 @@ int getop(char s[]){
 
     i = 0;
     if(isdigit(c) || c == '-'){
-        while(isdigit(s[++i] = c = getch())){}
+        while(isdigit(s[++i] = c = getch(line))){}
     }
     else if(c != '.'){
         return '-';
     }
 
     if(c == '.'){
-        while(isdigit(s[++i] = c = getch())){}
+        while(isdigit(s[++i] = c = getch(line))){}
     }
 
     s[i] = '\0';
-    if(c != EOF){
-        ungetch(c);
-    }
+    ungetch(c);
 
     return NUMBER;
 }
 
-#define BUFSIZE 1 
+#define BUFSIZE 100
 
 char buf[BUFSIZE];
 int bufp = 0;
+int linep = 0;
 
-int getch(void){
-    return (bufp > 0) ? buf[--bufp] : getchar();
+void readLine(char s[]){
+	int isValid = 1;
+	int i = 0;
+	char c;
+	while(isValid){
+		isValid = i < MAXOP - 1 && (c = getchar()) != '\n' && c != EOF;
+		s[i] = c;
+		++i;
+	}
+	s[i] = '\0';
+}
+
+int getch(char line[]){
+    return (bufp > 0) ? buf[--bufp] : line[linep++];
 }
 
 void ungetch(int c){
+    if(c == EOF){
+        c = ' ';
+    }
     if(bufp >= BUFSIZE){
         printf("ungetch: too many characters\n");
     }
