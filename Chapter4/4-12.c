@@ -3,20 +3,25 @@
 #define MAX 100
 
 void readLine(char []);
-int itoa(int, char [], int);
+void itoa(int, char []);
 
 int main(){
     char s[MAX];
 
-    itoa(1234, s, 0);
+    itoa(1234, s);
     printf("%s\n", s);
-    itoa(-1234, s, 0);
+    itoa(-1234, s);
 
     printf("%s\n", s);
 }
 
  
-int itoa(int n, char s[], int i){
+int itoar(int n, char s[], int i);
+
+void itoa(int n, char s[]){
+    itoar(n, s, 0);
+}
+int itoar(int n, char s[], int i){
 	if(n < 0){
 		//n = -n; // 2^wordsize-1 is greater than the max positive number
         s[i++] = '-';
@@ -24,7 +29,7 @@ int itoa(int n, char s[], int i){
 	}
 
     if(n / 10){
-        i = itoa(n / 10,s, i);
+        i = itoar(n / 10,s, i);
     }
     s[i] = n% 10 + '0';
     s[++i] = '\0';
