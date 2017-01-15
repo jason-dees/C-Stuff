@@ -4,8 +4,14 @@ int getint(int *);
 int main(){
     int *i;
     *i = 2;
-    while(getint(i) != EOF){
-        printf("%d\n", *i);
+    int gotten; 
+    while((gotten = getint(i)) || 1){
+        if(gotten == EOF){
+            return -1;
+        }
+        if(gotten > 0){
+            printf("%d\n", *i);
+        }
     }
 }
 
@@ -31,13 +37,14 @@ int getint(int *pn){
     if(c == '+' || c == '-'){
         c = getch();
     }
+    if(c != '.' && !isdigit(c)){
+        printf("%c\n", c);
+        ungetch(c);
+        return 0;
+    }
     for(*pn = 0; isdigit(c); c = getch()){
         *pn = 10 * *pn + (c - '0');
     }    
-
-    if(!isdigit(c)){
-        ungetch(c);
-    }
 
     *pn *= sign;
 
