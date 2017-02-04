@@ -11,14 +11,18 @@ void reverselines(char *lineptr[], int nlines);
 void qSort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
 int numcmp(char *, char *);
 int dircmp(char *, char *);
+int maincmp(char *, char *);
+
+int pos1 = 0;
+int pos2 = 0;
+
+int direction = 1;
+int numeric = 0;
+int ignorecase = 0;
+int directoryorder = 0;
 
 int main(int argc, char *argv[]){
-    int nlines;
-
-    int direction = 1;
-    int numeric = 0;
-    int ignorecase = 0;
-    int directoryorder = 0;
+    int nlines, c;
     while((--argc>0) && (((c = (*++argv)[0])=='-')||(c=='+'))){
         if (c=='-' && !isdigit(*(argv[0]+1))){
             while((c = *++argv[0])){
@@ -40,10 +44,16 @@ int main(int argc, char *argv[]){
                 }
             }
         }
+        else if (c == '-'){
+            pos2 = atoi(argv[0]+1);
+        }
+        else if(c == '+'){
+            pos1 = atoi(argv[0]+1);
+        }
     }
+    int (*comparer)(void*, void*) = maincmp;
     if((nlines = readlines(lineptr, MAXLINES)) >= 0){
-        qSort((void **) lineptr, 0, nlines -1,
-            (int (*)(void*, void*))(numeric ? numcmp: ignorecase ? strcasecmp : directoryorder ? dircmp : strcmp));
+        qSort((void **) lineptr, 0, nlines -1, comparer);
         if(direction){
             writelines(lineptr, nlines); 
         }
@@ -53,6 +63,33 @@ int main(int argc, char *argv[]){
         return 0;
     }
     return 1;
+}
+void substr(char *s, char *out);
+int maincmp(char *s1, char *s2){
+    int (*comparer)(void*, void*) = (numeric ? numcmp: ignorecase ? strcasecmp : directoryorder ? dircmp : strcmp);
+    if(pos2 > 0){
+        char out1[100], out2[100];
+        substr(s1, out1);
+        substr(s2, out2);
+        return comparer(out1, out2);
+        //substring
+    } 
+    else{
+        return comparer(s1, s2);
+    }
+}
+void substr(char *s, char *out)
+{
+    int i, j, len;
+    extern int pos1, pos2;
+     
+    len = strlen(s);
+    if(pos2 > 0 && len > pos2)
+        len = pos2;
+    for(j = 0, i = pos1; i < len; i++, j++){
+        out[j] = s[i];
+    }
+    out[j] = '\0';
 }
 
 void qSort(void *v[], int left, int right, int (*comp)(void *, void*)){
