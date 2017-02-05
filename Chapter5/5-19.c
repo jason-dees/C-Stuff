@@ -15,21 +15,28 @@ char token[MAXTOKEN];
 char name[MAXTOKEN];
 char datatype[MAXTOKEN];
 char out[1000];
-int isvalid = 0;
+
 int main(){
     int type;
     char temp[MAXTOKEN];
 
     while(gettoken() != EOF){
-        isvalid = 1;
-        strcpy(datatype, token);
-        out[0] = '\0';
-        dcl();
-        if(tokentype != '\n' || !isvalid){
-            printf("There was an issue with your input: %s\n", token);
-        }else{
-            printf("%s: %s %s\n", name, out, datatype);
+        strcpy(out, token);
+        while((type = gettoken()) != '\n'){
+
+            if(type == PARENS || type == BRACKETS){
+                strcat(out, token);
+            }
+            else if(type == '*'){
+                sprintf(temp, "(*%s)", out);
+                strcpy(out, temp);
+            }
+            else if(type == NAME){
+                sprintf(temp, "%s %s", token, out);
+                strcpy(out, temp);
+            }
         }
+        printf("undcled: %s\n", out);
     }
 
     return 0;
@@ -53,7 +60,6 @@ void dirdcl(void){
     if(tokentype == '('){
         dcl();
         if(tokentype != ')'){
-            isvalid = 0;
             printf("missing ')'\n");
         }
     }
@@ -61,7 +67,6 @@ void dirdcl(void){
         strcpy(name, token);
     }
     else{
-        isvalid = 0;
         printf("expected name or (dcl)\n");
     }
 
