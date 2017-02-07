@@ -10,6 +10,7 @@ void dcl(void);
 void dirdcl(void);
 
 int gettoken(void);
+void clearbuff();
 int tokentype;
 char token[MAXTOKEN];
 char name[MAXTOKEN];
@@ -25,9 +26,16 @@ int main(){
         strcpy(datatype, token);
         out[0] = '\0';
         dcl();
-        if(tokentype != '\n' || !isvalid){
+        if(tokentype == '\n' && !isvalid){
+            clearbuff();
             printf("There was an issue with your input: %s\n", token);
-        }else{
+            out[0] = '\0';
+            token[0] = '\0';
+            name[0] = '\0';
+            datatype[0] = '\0';
+            isvalid = 1;
+        }
+        else{
             printf("%s: %s %s\n", name, out, datatype);
         }
     }
@@ -63,6 +71,7 @@ void dirdcl(void){
     else{
         isvalid = 0;
         printf("expected name or (dcl)\n");
+        return;
     }
 
     while((type = gettoken()) == PARENS || type == BRACKETS){
@@ -84,7 +93,6 @@ int gettoken(void){
     while( (c = getch()) == ' ' || c == '\t'){
         ;
     }
-
     if(c == '(') {
         if( (c = getch()) == ')' ) {
             strcpy(token, "()");
@@ -118,6 +126,10 @@ int gettoken(void){
 
 char buf[BUFSIZE];
 int bufp = 0;
+
+void clearbuff(){
+    bufp = 0;
+}
 
 int getch(void){
     return (bufp > 0) ? buf[--bufp] : getchar();
