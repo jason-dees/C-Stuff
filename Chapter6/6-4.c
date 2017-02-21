@@ -13,7 +13,7 @@ struct tnode {
 #define MAXWORD 100
 struct tnode *addtree(struct tnode *, char *);
 void treeprint(struct tnode *);
-void rebalancetocount(struct tnode *);
+struct tnode  *rebalancetocount(struct tnode *);
 
 int main(){
     struct tnode *root;
@@ -54,22 +54,46 @@ struct tnode *addtree(struct tnode *p, char *w){
 }
 
 void swap(struct tnode *, struct tnode *);
+void place(struct tnode *, struct tnode *);
+struct tnode *copytnode(struct tnode *);
 
-void rebalancetocount(struct tnode *p){
-    if(p->right != NULL && p->count > p->right->count){
-        swap(p, p->right);
-        rebalancetocount(p);
+struct tnode *rebalancetocount(struct tnode *p){
+    struct tnode *root;
+    root = copytnode(p);
+    //Still not quite right. I need to compare the right and left sides against each other too
+    place(root, p->left);
+    place(root, p->right);
+}
+
+void place(struct tnode *p, struct tnode *n){
+    //I like this though
+    if(n == NULL){
+        return;
     }
-    else if(p->left != NULL && p->count < p->left->count){
-        swap(p, p->left);
-        rebalancetocount(p);
+    if(p->count > n->count){
+        if(p->left == NULL){
+            p->left = copytnode(n);
+        }
+        else{
+            place(p->left, n);
+        }
     }
-    if(p->left != NULL){
-        rebalancetocount(p->left);
+    else{
+        if(p->right == NULL){
+            p->right = copytnode(n);
+        }
+        else{
+            place(p->right, n);
+        }
     }
-    else if(p->right != NULL){
-        rebalancetocount(p->right);
-    }
+}
+
+struct tonode *copytnode(struct tnode *p){
+    struct tnode *c;
+    c = talloc();
+    c->word = p->word;
+    c->count = p->count;
+    c->left = c->right = NULL;
 }
 
 void swap(struct tnode *p, struct tnode *q){
