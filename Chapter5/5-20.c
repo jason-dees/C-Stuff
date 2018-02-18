@@ -4,12 +4,13 @@
 
 #define MAXTOKEN 100
 
-enum { NAME, PARENS, BRACKETS, TYPE };
+enum { NAME, PARENS, BRACKETS, TYPE};
 
 void dcl(void);
 void dirdcl(void);
 
 int gettoken(void);
+void clearbuff();
 int tokentype;
 char token[MAXTOKEN];
 char name[MAXTOKEN];
@@ -20,20 +21,23 @@ int main(){
     int type;
     char temp[MAXTOKEN];
 
-   isvalid = 1;
     while(gettoken() != EOF){
+        isvalid = 1;
         strcpy(datatype, token);
         out[0] = '\0';
         dcl();
-        if(tokentype != '\n' || !isvalid){
-        }
-        else if(tokentype == '\n' && !isvalid){
+        if(tokentype == '\n' && !isvalid){
+            clearbuff();
             printf("There was an issue with your input: %s\n", token);
+            printf("out: %s\n", out);
+            out[0] = '\0';
+            token[0] = '\0';
+            name[0] = '\0';
+            datatype[0] = '\0';
             isvalid = 1;
         }
         else{
             printf("%s: %s %s\n", name, out, datatype);
-            isvalid = 1;
         }
     }
 
@@ -57,20 +61,22 @@ void dirdcl(void){
 
     if(tokentype == '('){
         dcl();
-        if(tokentype != ')' || tokentype != TYPE){
+        if(tokentype != ')' && tokentype != TYPE){
             isvalid = 0;
             printf("missing ')'\n");
+        }
+        else if(tokentype == TYPE){
+            strcat(out, " taking");
+            strcat(out, token);
         }
     }
     else if(tokentype == NAME){
         strcpy(name, token);
     }
-    else if(tokentype == TYPE){
-
-    }
     else{
         isvalid = 0;
-        printf("tokentype: %d expected name or (dcl): %s\n", tokentype, token);
+        printf("expected name or (dcl)\n");
+        return;
     }
 
     while((type = gettoken()) == PARENS || type == BRACKETS){
@@ -84,7 +90,7 @@ void dirdcl(void){
         }
     }
 }
-int istype(char *s);
+
 int gettoken(void){
     int c, getch(void);
     void ungetch(int);
@@ -92,15 +98,19 @@ int gettoken(void){
     while( (c = getch()) == ' ' || c == '\t'){
         ;
     }
-
     if(c == '(') {
         if( (c = getch()) == ')' ) {
             strcpy(token, "()");
             return tokentype = PARENS;
         }
-        else if(isalpha(c)){
+        else if(isalpha(c)){//is int or char or whatever
+            printf("is alpha\n");
+            for( *p++ = c; isalnum(c = getch()); ){
+                *p++ = c;
+            }
+            *p = '\0';
             ungetch(c);
-            return gettoken();
+            return tokentype = TYPE;
         }
         else{
             ungetch(c);
@@ -120,9 +130,6 @@ int gettoken(void){
         }
         *p = '\0';
         ungetch(c);
-        if(istype(p)){
-            return tokentype = TYPE;
-        }
         return tokentype = NAME;
     }
     else{
@@ -130,13 +137,14 @@ int gettoken(void){
     }
 }
 
-int istype(char *s){
-    return strcmp("int", s) == 0 || strcmp("char", s) == 0 || strcmp("float", s) == 0;
-}
 #define BUFSIZE 100
 
 char buf[BUFSIZE];
 int bufp = 0;
+
+void clearbuff(){
+    bufp = 0;
+}
 
 int getch(void){
     return (bufp > 0) ? buf[--bufp] : getchar();
