@@ -2,7 +2,7 @@
 
 #define MAXWORDLENGTH 20
 
-void main(){
+int main(){
     int c, i, wordLength, mostWords, longestWordLoop;
 
     int lengthCounts[MAXWORDLENGTH];

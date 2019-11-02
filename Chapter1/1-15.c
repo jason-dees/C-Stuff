@@ -6,7 +6,7 @@
 
 float toCelsius(float fahr);
 
-void main(){
+int main(){
     float fahr, celsius;
 
     printf("  f      c\n");

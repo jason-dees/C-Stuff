@@ -7,7 +7,7 @@ void copy(char to[], char from[]);
 void reverseString(char s[]);
 int stringLength(char s[]);
 
-void main(){
+int main(){
     int len;
     int max;
     char line[MAXLINE];

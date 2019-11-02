@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void main(){
+int main(){
     int c, wasSpace, isSpace;
 
     wasSpace = isSpace = 0;

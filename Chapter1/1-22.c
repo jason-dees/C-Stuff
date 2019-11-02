@@ -7,7 +7,7 @@ void fold(char in[], int foldAt, int maxline);
 int isSpace(char c);
 int isEndLine(char c);
 
-void main(){
+int main(){
     int len;
     char line[MAXLINE];
 

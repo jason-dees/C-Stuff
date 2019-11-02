@@ -5,7 +5,7 @@
 int getLine(char line[], int maxline);
 void detab(int tablength, char in[], char out[], int maxline);
 
-void main(){
+int main(){
     int len;
     char line[MAXLINE];
     char detabbed[MAXLINE];

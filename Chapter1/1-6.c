@@ -1,5 +1,5 @@
 #include <stdio.h>
 
-void main(){
+int main(){
     printf("Should Be one %d\n", (getchar() != EOF));
 }

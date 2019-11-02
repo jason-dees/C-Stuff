@@ -3,7 +3,7 @@
 #define IN  1
 #define OUT 2
 
-void main(){
+int main(){
     int c, isSpace;
 
     isSpace = OUT;

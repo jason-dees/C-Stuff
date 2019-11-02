@@ -10,7 +10,7 @@ void removeComment(char in[]);
 int searchComment(char in[]);
 int stripComment(char in[], int start, int end);
 
-void main(){
+int main(){
     int len, inComment, hasComment;
     char line[MAXLINE];
     inComment = hasComment = 0;

@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void main(){
+int main(){
     int numberOfTabs, numberOfSpaces, numberOfNewLines, c;
 
     numberOfTabs = numberOfSpaces = numberOfNewLines = 0;

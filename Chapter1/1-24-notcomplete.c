@@ -5,7 +5,7 @@
 int getLine(char line[], int maxline);
 int hasOpenClose(char in[], char open, char close);
 
-void main(){
+int main(){
     int len;
     char line[MAXLINE];
 

@@ -4,7 +4,7 @@
 #define UPPER 300
 #define STEP 20
 
-void main(){
+int main(){
     int fahr;
 
     printf("  f      c\n");

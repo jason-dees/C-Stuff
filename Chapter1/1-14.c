@@ -1,7 +1,7 @@
 #include <stdio.h>
 #define BIGGEST_CHAR 256
 
-void main(){
+int main(){
     int c, i, mostChars, longestWordLoop;
 
     int characterCounts[BIGGEST_CHAR];
