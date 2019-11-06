@@ -11,7 +11,7 @@ struct tnode {
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
-#include "../getword.h"
+#include "../Shared/getword.h"
 
 struct tnode *addtree(struct tnode *, char *, int);
 void treeprint(struct tnode *);

@@ -8,7 +8,7 @@ struct tnode {
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
-#include "../getword.h"
+#include "../Shared/getword.h"
 
 #define MAXWORD 100
 struct tnode *addtree(struct tnode *, char *);
