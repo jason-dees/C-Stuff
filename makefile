@@ -1,5 +1,5 @@
 CXX = cc
 
 build: 
-	$(CXX) ./Chapter$(chapter)/$(chapter)-$(lesson).c ./Shared/*.c -o ./bin/$(chapter)-$(lesson).out
-	./bin/$(chapter)-$(lesson).out
+	$(CXX) ./Chapter$(chapter)/$(chapter)-$(exercise).c ./Shared/*.c -o ./bin/$(chapter)-$(exercise).out
+	./bin/$(chapter)-$(exercise).out
