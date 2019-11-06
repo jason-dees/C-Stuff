@@ -18,6 +18,5 @@ int main(){
         else{
             putchar(c);
         }
-
     }
 }

@@ -14,9 +14,7 @@ int main(){
         else if(!isSpace){
             putchar(c);
         }
-        
 
         wasSpace = isSpace;
-
     }
 }
