@@ -3,7 +3,10 @@
 #define MAXLINE 1000
 #define SLASH_STAR 1
 #define STAR_SLASH 2 
-
+/*
+Write a program to remove all comments from a C program. Don't forget to handle quoted strings and character constancts 
+properly. C comments do not nest.
+*/
 
 int getLine(char line[], int maxline);
 void removeComment(char in[]);

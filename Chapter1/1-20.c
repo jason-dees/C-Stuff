@@ -1,6 +1,10 @@
 #include <stdio.h>
 #define MAXLINE 1000
 #define TABLENGTH 4
+/*
+Write a program detab that replaces tabs in the input with the proper number of blanks to space to the next tab stop. 
+Assume a fixed set of tab stops, say ever n columns.
+*/
 
 int getLine(char line[], int maxline);
 void detab(int tablength, char in[], char out[], int maxline);

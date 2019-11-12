@@ -1,6 +1,9 @@
 #include <stdio.h>
 #define MAXLINE 1000
 #define MINLINE 80
+/*
+Write a program to remove trailing blanks and tabs from each line of input, and to delete entirely blank lines.
+*/
 
 int getLine(char line[], int maxline);
 int characterIsBlank(char c);

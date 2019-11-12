@@ -1,6 +1,10 @@
 #include <stdio.h>
 #define MAXLINE 1000
 #define TABLENGTH 4
+/*
+Write a program entab that replaces strings of blanks by the minimum number of tabs and blanks to achieve the same 
+spacing. Use the same tab stops as detab.
+*/
 
 int getLine(char line[], int maxline);
 void entab(int tablength, char in[], char out[], int maxline);
