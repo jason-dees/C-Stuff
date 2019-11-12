@@ -2,6 +2,11 @@
 #include <limits.h>
 #include <float.h>
 #include <math.h>
+/*
+Write a program to determine the ranges of char, short, int, and long variables, both signed and unsigned, by printing 
+appropriate values from standard headers and by direct computation. Harder if you compute them: determine the ranges 
+of the various floating-point types.
+*/
 
 int printUnsignedRange(char prefix[], int size);
 int printSignedRange(char prefix[], int size);
@@ -16,7 +21,7 @@ int main(){
     signed int si = -2;
     signed char sc = -2;
 
-    printUnsignedRange("Unsigned Char", sizeof(c));
+    printUnsignedRange("Unsigned char", sizeof(c));
     printUnsignedRange("Unsigned int", sizeof(i));
     printUnsignedRange("Unsigned float", sizeof(f));
     printUnsignedRange("Unsigned double", sizeof(d));
@@ -32,6 +37,7 @@ int printUnsignedRange(char prefix[], int size){
     double topRange = pow(2.0, size) - 1;
     
     printf("%s: 0 to %.0f\n", prefix, topRange);
+    return 0;
 }
 
 int printSignedRange(char prefix[], int size){
@@ -39,4 +45,5 @@ int printSignedRange(char prefix[], int size){
     double topRange = pow(2.0, size);
     
     printf("%s: %.0f to %.0f\n", prefix, (-1 * topRange), topRange - 1);
+    return 0;
 }
