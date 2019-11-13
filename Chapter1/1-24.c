@@ -131,3 +131,5 @@ int stackPrevious()
     }
     return stack[stackindex - 1];
 }
+
+//Stuff like }}}}}}}}}}}} come out ok from this and that is wrong!!
