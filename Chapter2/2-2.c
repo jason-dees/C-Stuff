@@ -10,12 +10,12 @@ int main(){
 	int i, lim, c, isValid;
 	lim = 100;
 	i = 0;
-	isValid = 3;
+	isValid = 1;
 	char s[lim];
 
-	while(isValid == 3){
+	while(isValid){
 		c = getchar();
-		isValid = (i < lim - 1) + (c != '\n') + (c != EOF);
+		isValid = (i < lim - 1) * (c != '\n') * (c != EOF);
 		s[i++] = c;
 	}
     
