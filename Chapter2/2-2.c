@@ -1,5 +1,6 @@
 #include <stdio.h>
 /*
+page 42
 isValid = i < lim - 1 && (c = getchar()) != '\n' && c != EOF;
 
 Write a loop equivalent to the for loop above without using && or ||.

@@ -1,5 +1,10 @@
 #include <stdio.h>
 #include <math.h>
+/*
+page 46
+Write a function htoi(s), which converts a string of hexadecimal digits (including an option 0x, or 0X) into its 
+equivalent integer value. The allowable digits are 0 through 9, a through f and A through F.
+*/
 
 int htoi(char s[]);
 
