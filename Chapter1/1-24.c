@@ -32,7 +32,7 @@ int main()
     while ((len = getProgram(program, MAXPROGRAM)) > 0)
     {
     }
-    printf("%c %d\n", stack[stackindex], stackindex);
+    printf("%c %d %d\n", stack[stackindex], stackindex, len);
 }
 
 int getProgram(char s[], int lim)
@@ -46,7 +46,9 @@ int getProgram(char s[], int lim)
             i++;
             //skip next character we don't care
         }
-        doStackStuff(c, s[i - 1]);
+        if(!doStackStuff(c, s[i - 1])){
+            return -1;
+        }
     }
     return i;
 }
@@ -65,7 +67,7 @@ int doStackStuff(char c, char p)
 
     if (isincomment == 1)
     {
-        return 0;
+        return 1;
     }
     sp = stackPrevious();
     if (sp == SLASHSTAR && p == '*' && c == '/')
@@ -74,7 +76,7 @@ int doStackStuff(char c, char p)
     }
     else if (sp == SLASHSTAR)
     {
-        return 0;
+        return 1;
     }
     else if (c == SINGLE && sp != SINGLE)
     {
@@ -94,14 +96,20 @@ int doStackStuff(char c, char p)
     {
         pop(c);
     } //Previously could still explode here if the program starts with }, now just for demo purposes
+    else if (c == '}' ){
+        return 0;
+    }
     else if (c == '(')
     {
         push(c);
     }
-    else if (c == ')')
+    else if (c == ')' && sp == '(')
     {
         pop(c);
     } //Previously could still explode here if the program starts with )
+    else if (c == ')' ){
+        return 0;
+    }
     else if (c == '*' && p == '/')
     {
         push(SLASHSTAR);
