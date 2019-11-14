@@ -1,5 +1,10 @@
 #include <stdio.h>
 #define MAX 100
+/*
+page 48
+Write an alternate version of squeeze(s1, s2) that deletes each character in s1 that matches any character in the 
+string s2.
+*/
 
 void readLine(char s[]);
 void squeezeChar(char s[], int c);
@@ -25,14 +30,12 @@ void readLine(char s[]){
 	char c;
 	while(isValid){
 		isValid = i < MAX - 1 && (c = getchar()) != '\n' && c != EOF;
-		s[i] = c;
-		++i;
+		s[i++] = c;
 	}
 }
 
 void squeezeChar(char s[], int c){
 	int i, j;
-
 	for(i = j = 0; s[i] != '\0'; i++){
 		if(s[i] != c){
 			s[j++] = s[i];

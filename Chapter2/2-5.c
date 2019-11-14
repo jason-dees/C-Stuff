@@ -1,5 +1,11 @@
 #include <stdio.h>
 #define MAX 100
+/*
+page 48
+Write the function any(s1, s2), which returns the first location in the string s1 where any character from the string 
+s2 occurs, or -1 if s1 contains no characters from s2 (the standard library function strpbrk does the same job but 
+returns a pointer to the location.)
+*/
 
 void readLine(char s[]);
 int any(char s1[], char s2[]);
@@ -24,18 +30,17 @@ void readLine(char s[]){
 	char c;
 	while(isValid){
 		isValid = i < MAX - 1 && (c = getchar()) != '\n' && c != EOF;
-		s[i] = c;
-		++i;
+		s[i++] = c;
 	}
 }
 
 int any(char s1[], char s2[]){
-	int i, j, k, c;
-	for(k = 0; s2[k] != '\0'; i++){
-		c = s2[k];
-		for(i = j = 0; s1[i] != '\0'; i++){
-			if(s1[i] == c){
-				return i;	
+	int i, k, c;
+	for(k = 0; s1[k] != '\0'; k++){
+		c = s1[k];
+		for(i = 0; s2[i] != '\0'; i++){
+			if(s2[i] == s1[k]){
+				return k;	
 			}
 		}
 	}

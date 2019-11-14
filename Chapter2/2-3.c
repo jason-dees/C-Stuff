@@ -29,11 +29,9 @@ int main(){
 
 
 int htoi(char s[]){
-	int i, o, isHex, currentNumber, sumNumber;
-	int numbersCount = 0;
+	int i, o, isHex, currentNumber, sumNumber, numbersCount = 0;
 	int numbers[100];
 	isHex = 1;
-	i = 0;
 	if(s[0] == '0' && (s[1] == 'x' || s[1] == 'X')){
 		i += 2;
 	}
@@ -52,17 +50,14 @@ int htoi(char s[]){
 			isHex = 0;
 		}
 		if(isHex){
-			numbers[numbersCount] = currentNumber;
-			numbersCount ++;
+			numbers[numbersCount++] = currentNumber;
 		}
 	}
 	i = numbersCount;
 
-	sumNumber = 0;
 	for(o = 0; o < i; ++o){
-		--numbersCount;
 		if(numbers[o] > 0){
-			sumNumber += pow(16, (numbersCount)) -1 + numbers[o];
+			sumNumber += pow(16, (--numbersCount)) -1 + numbers[o];
 		}
 	}
 
