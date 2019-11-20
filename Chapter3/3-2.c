@@ -1,5 +1,11 @@
 #include <stdio.h>
 #define MAX 100
+/*
+page 60
+Write a function escape(s,t) that converts characters like newline and tab into visible escape sequences like \n and \t 
+as it copies the string t to s. Use a switch. Write a function for the other direction as well, converting escape 
+sequences into the real characters.
+*/
 
 void readLine(char s[]);
 void escape(char s[], char t[]);

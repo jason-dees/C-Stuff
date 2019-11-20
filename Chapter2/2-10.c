@@ -1,5 +1,10 @@
 #include <stdio.h>
 #define MAX 100
+/*
+page 52
+Rewrite the function lower, which converts upper case letters to lower case letters, with a conditional expression 
+instead of if-else.
+*/
 
 void readLine(char s[]);
 int lower(int c);
