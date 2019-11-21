@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #define MAX 100
+/*
+page 64
+Write the function itob(n,s,b) that converts the integer n into a base b character representation in the string s. In 
+particular, itob(n,s,16) formats n as a hexadecimal integer in s.
+*/
 
 void readLine(char s[]);
 void itoa(int n, char s[]);
@@ -12,7 +17,7 @@ int main(){
 	int lim;
 	lim = MAX;
 	char s[lim];
-	itob(-1 * ((1 << 31) - 1) - 1, s, 2);
+	itob(-1 * ((1 << 31) - 1) - 1, s, 12);
 	printf("%s\n", s);
 
 	itob(30, s, 16);

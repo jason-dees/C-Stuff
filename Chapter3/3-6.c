@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #define MAX 100
+/*
+page 64
+Write a version of itoa that accepts three agruments instead of two. The third argument is minimum field width; the 
+converted number must be padded with blanks on the left if necessary to make it wide enough.
+*/
 
 void readLine(char s[]);
 void itoa(int n, char s[], int p);
@@ -11,9 +16,9 @@ int main(){
 	int lim;
 	lim = MAX;
 	char s[lim];
-	itoa(23, s, 5);
+	itoa(23, s, 10);
 	printf("%s\n", s);
-	itoa(-23, s, 5);
+	itoa(-23, s,10);
 	printf("%s\n", s);
 }
 
@@ -38,6 +43,9 @@ void itoa(int n, char s[], int p){
 	do{
 		s[i++] =  n % 10 * one + '0';
 	}while((n /= 10) != 0);
+	if(sign < 0){
+		p--;
+	}
 	while(i < p){
 		s[i++] = '0';
 	}
