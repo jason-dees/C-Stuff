@@ -35,7 +35,8 @@ void duplicate(double copy[])
     int i = 0;
     while (i < sp)
     {
-        copy[i++] = val[i];
+        copy[i] = val[i];
+        i++;
     }
 }
 

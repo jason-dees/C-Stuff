@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+/* 
+page 79
+Add access to library functions like sin, exp, and pow. See <math.h> in appendix B, section 4.
+*/
 
 #define MAXOP 100
 #define NUMBER '0'
@@ -85,6 +89,7 @@ int opis(char op[]){
 
 void domathop(char op[]){
     double op2;
+    //This stuff is in radians, not degrees
     switch(opis(op)){
         case SIN:
             push(sin(pop()));
@@ -102,82 +107,5 @@ void domathop(char op[]){
             op2 = pop();
             push(pow(pop(), op2));
             break;
-    }
-}
-
-#define MAXVAL 100
-
-int sp = 0;
-double val[MAXVAL];
-void push(double f){
-    if (sp < MAXVAL){
-        val[sp++] = f;
-    }
-    else{
-        printf("Error: stack is full!! %g\n", f);
-    }
-}
-
-double pop(void){
-    if(sp > 0){
-        return val[--sp];
-    }
-    return 0.0;
-}
-
-#include <ctype.h>
-int getch(void);
-void ungetch(int);
-
-int getop(char s[]){
-    int i, c, hasMinus, hasdig;
-    hasdig = hasMinus = 0;
-    while((s[0] = c = getch()) == ' ' || c == '\t'){}
-    //it is a negative number when it's a - and the next character is a digit
-    s[1] = '\0';
-    if(!isdigit(c) && c != '.' && c != '-'){
-        return c;
-    }
-
-    i = 0;
-    if(c == '-'){
-        i = 1;
-        c = getch();
-        hasMinus = 1;
-    }
-
-    if(isdigit(c) || c == '-'){
-        while(isdigit(s[++i] = c = getch())){}
-    }
-
-    if(c == '.'){
-        while(isdigit(s[++i] = c = getch())){}
-    }
-
-    s[i] = '\0';
-    if(c != EOF){
-        ungetch(c);
-    }
-    if(hasMinus && !hasdig){
-        return '-';
-    }
-
-    return NUMBER;
-}
-#define BUFSIZE 100
-
-char buf[BUFSIZE];
-int bufp = 0;
-
-int getch(void){
-    return (bufp > 0) ? buf[--bufp] : getchar();
-}
-
-void ungetch(int c){
-    if(bufp >= BUFSIZE){
-        printf("ungetch: too many characters\n");
-    }
-    else{
-        buf[bufp++] = c;
     }
 }

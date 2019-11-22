@@ -27,7 +27,7 @@ int main(){
             swap();
             printtop();
             duplicate(d);
-            printf("duped: %.2g\n", d[0]);
+            printf("duped: %.2g\n", d[2]);
             clear();
             printtop();
             printf("\t%.8g\n", pop());

@@ -32,10 +32,6 @@ int getop(char s[])
         {
         }
     }
-    else if (c != '.')
-    {
-        return '-';
-    }
 
     if (c == '.')
     {
