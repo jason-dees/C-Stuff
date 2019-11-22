@@ -1,31 +1,28 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <string.h>
-#include <ctype.h>
-
 #include "../Shared/stack.h"
 #include "../Shared/getch.h"
+/*
+page 79
+Write a routing unget(s) that will push back an entire string onto the input. Should ungets know about buf and bufp, or
+should it just use ungetch?
+*/
 
 #define MAXOP 100
-#define MAXVAR 123
-#define NUMBER '0'
 
-double variables[MAXVAR];
 int main() {
     char c;
     int i = 0;
     char s[MAXOP];
-    double d[MAXOP];
 
-    while ((c = getch()) != EOF) {
+    while ((c = getch()) != EOF && i < MAXOP) {
         if(c !=  '\n'){
            s[i++] = c;
         }
         else{
-            s[i++] = '\0';
+            s[i] = '\0';
             ungets(s);
         }
     }
-    printf("thing \n%s\n", s);
+
+    printf("\n%s\n", s);
 }

@@ -25,7 +25,8 @@ void ungetch(int c)
      char c;
      int i = 0;
      while((c = s[i++]) != '\0'){
-         printf("%c\n",c);
-         ungetch(c);
+     }
+     while(i > -1){
+         ungetch(s[i--]);
      }
  }
