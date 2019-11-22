@@ -15,6 +15,11 @@ then
     chapter="${splitted[0]}"
     lesson="${splitted[1]}"
 fi
-cc ./Chapter${chapter}/${chapter}-${lesson}.c ./Shared/*.c -o ./bin/${chapter}-${lesson}.out
+if [ "${chapter}-${lesson}" == "4-8" ]
+then
+    cc ./Chapter${chapter}/${chapter}-${lesson}.c -o ./bin/${chapter}-${lesson}.out
+else
+    cc ./Chapter${chapter}/${chapter}-${lesson}.c ./Shared/*.c -o ./bin/${chapter}-${lesson}.out
+fi
 ./bin/${chapter}-${lesson}.out
 #make chapter=$1 exercise=$2

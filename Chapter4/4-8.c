@@ -3,15 +3,19 @@
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
+/*
+page 79
+Suppose that there will never be more than one character of pushback. Modify getch and ungetch accordingly.
+*/
 
 #define MAXOP 100
 #define MAXVAR 123
 #define NUMBER '0'
 #define SIN 1
-#define EXP 2 
-#define TAN 3 
-#define COS 4 
-#define POW 5 
+#define EXP 2
+#define TAN 3
+#define COS 4
+#define POW 5
 
 int getop(char []);
 void push(double);
@@ -94,7 +98,7 @@ int main(){
             else if(mathOpIndex == 1 && (islower(type) || isupper(type))){
                 push(type);
                 if(variables[type] != 0){
-                    mathOpIndex = 0; 
+                    mathOpIndex = 0;
                 }
             }
             break;
@@ -214,7 +218,7 @@ int getop(char s[]){
     return NUMBER;
 }
 
-#define BUFSIZE 1 
+#define BUFSIZE 1
 
 char buf[BUFSIZE];
 int bufp = 0;
