@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include "../Shared/stack.h"
 #include "../Shared/getop.h"
-/* 
+/*
 page 79
-Add commands to prin the top element of the stack wihout popping it, duplicate it, and to swap the top two elements. 
+Add commands to prin the top element of the stack wihout popping it, duplicate it, and to swap the top two elements.
 Add a command to clear the stack.
 */
 
@@ -13,7 +13,6 @@ Add a command to clear the stack.
 
 int main(){
     int type;
-    double op2, op3;
     char s[MAXOP];
     double d[MAXOP];
 

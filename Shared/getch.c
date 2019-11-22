@@ -21,3 +21,11 @@ void ungetch(int c)
         buf[bufp++] = c;
     }
 }
+ void ungets(char s[]){
+     char c;
+     int i = 0;
+     while((c = s[i++]) != '\0'){
+         printf("%c\n",c);
+         ungetch(c);
+     }
+ }

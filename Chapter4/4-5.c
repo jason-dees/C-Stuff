@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include "../Shared/stack.h"
+#include "../Shared/getop.h"
 /* 
 page 79
 Add access to library functions like sin, exp, and pow. See <math.h> in appendix B, section 4.
@@ -15,9 +17,6 @@ Add access to library functions like sin, exp, and pow. See <math.h> in appendix
 #define COS 4 
 #define POW 5 
 
-int getop(char []);
-void push(double);
-double pop(void);
 int opis(char []);
 void domathop(char []);
 
