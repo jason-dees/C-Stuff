@@ -1,8 +1,6 @@
 #include <ctype.h>
 #include <stdio.h>
-
-int getch(void);
-void ungetch(int);
+#include "getch.h"
 
 int getword(char *word, int lim){
     int c, getch(void);
@@ -26,22 +24,4 @@ int getword(char *word, int lim){
     }
     *w = '\0';
     return word[0];
-}
-
-#define BUFSIZE 1000
-
-char buf[BUFSIZE];
-int bufp = 0;
-
-int getch(void){
-    return (bufp > 0) ? buf[--bufp] : getchar();
-}
-
-void ungetch(int c){
-    if(bufp >= BUFSIZE){
-        printf("ungetch: too many characters\n");
-    }
-    else{
-        buf[bufp++] = c;
-    }
 }

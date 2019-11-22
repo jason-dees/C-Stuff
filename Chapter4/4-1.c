@@ -1,5 +1,10 @@
 #include <stdio.h>
 #define MAX 100
+/*
+page 71
+WRite the function strrindex(s,t), which returns the position of the rightmost occurrence of t in s, or -1 if there is 
+none.
+*/
 
 int getLine(char s[], int lim);
 int strrindex(char s[], char t);

@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <math.h>
 #define MAX 100
+/*
+page 73
+Extend atof to handle scientific notation of the form 123.45e-6 where a floating-point number may be followed by e or E 
+and an optionally signed component.
+*/
 
 int getLine(char s[], int lim);
 double atof(char s[]);
