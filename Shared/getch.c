@@ -12,6 +12,10 @@ int getch(void)
 
 void ungetch(int c)
 {
+    if (c == EOF)
+    {
+        c = ' ';
+    }
     if (bufp >= BUFSIZE)
     {
         printf("ungetch: too many characters\n");
