@@ -1,4 +1,9 @@
 #include <stdio.h>
+/*
+page 88
+Adapt the ideas of printd to write a recursive version of itoa; that is, convert an integer into a string by calling a
+recursive routine.
+*/
 
 #define MAX 100
 
@@ -15,7 +20,7 @@ int main(){
     printf("%s\n", s);
 }
 
- 
+
 int itoar(int n, char s[], int i);
 
 void itoa(int n, char s[]){
@@ -28,6 +33,7 @@ int itoar(int n, char s[], int i){
         n = -n;
 	}
 
+printf("%d %d\n", n / 10, i);
     if(n / 10){
         i = itoar(n / 10,s, i);
     }
