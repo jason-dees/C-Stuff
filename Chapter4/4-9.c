@@ -5,6 +5,11 @@
 #include <ctype.h>
 #include "../Shared/stack.h"
 #include "../Shared/getop.h"
+/*
+page 79
+Our getch and ungetch do not handle a pushed-back EOF correctly. Decided what their properties aught to be if an EOF is
+pushed back, then implement your design.
+*/
 
 #define MAXOP 100
 #define MAXVAR 123
@@ -15,9 +20,6 @@
 #define COS 4
 #define POW 5
 
-int getop(char []);
-void push(double);
-double pop(void);
 double popvar(void);
 int opis(char []);
 void domathop(char []);

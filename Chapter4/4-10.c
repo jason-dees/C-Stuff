@@ -3,15 +3,20 @@
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
+/*
+page 79
+An alternate organization uses getline to read an entire input line; this makes getch and ungetch unnecessary. Revise
+the calculator to use this approach.
+*/
 
 #define MAXOP 100
 #define MAXVAR 123
 #define NUMBER '0'
 #define SIN 1
-#define EXP 2 
-#define TAN 3 
-#define COS 4 
-#define POW 5 
+#define EXP 2
+#define TAN 3
+#define COS 4
+#define POW 5
 
 int getop(char [], char []);
 void push(double);
@@ -96,7 +101,7 @@ int main(){
             else if(mathOpIndex == 1 && (islower(type) || isupper(type))){
                 push(type);
                 if(variables[type] != 0){
-                    mathOpIndex = 0; 
+                    mathOpIndex = 0;
                 }
             }
             break;
