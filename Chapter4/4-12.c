@@ -33,7 +33,6 @@ int itoar(int n, char s[], int i){
         n = -n;
 	}
 
-printf("%d %d\n", n / 10, i);
     if(n / 10){
         i = itoar(n / 10,s, i);
     }
