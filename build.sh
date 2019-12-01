@@ -18,11 +18,11 @@ fi
 includeshared=true
 case "${chapter}-${lesson}" in
     "4-8")
-        includeshared=false
-        ;;
+        includeshared=falsed ;;
     "4-10")
-        includeshared=false
-        ;;
+        includeshared=falsed ;;
+    "4-11")
+        includeshared=falsed ;;
 esac
 if [ "$includeshared" = true ] ;
 then

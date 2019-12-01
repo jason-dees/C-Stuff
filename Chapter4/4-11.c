@@ -2,14 +2,18 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+/*
+page 83
+Modify getop so that it doesn't need to use ungetch. Hint: use an internal static variable.
+*/
 
 #define MAXOP 100
 #define NUMBER '0'
 #define SIN 1
-#define EXP 2 
-#define TAN 3 
-#define COS 4 
-#define POW 5 
+#define EXP 2
+#define TAN 3
+#define COS 4
+#define POW 5
 
 int getop(char []);
 void push(double);
@@ -132,7 +136,7 @@ int getch(char []);
 static int bufp = 0;
 
 int getop(char s[]){
-    static char buf[BUFSIZE];
+    static char buf[BUFSIZE]; //this never goes away
     int i, c, hasMinus, hasdig;
     hasdig = hasMinus = 0;
     while((s[0] = c = getch(buf)) == ' ' || c == '\t'){}
