@@ -1,50 +1,48 @@
 #include <stdio.h>
+#include "../Shared/getch.h"
+
+#define isvalidcharacter(c) isdigit(c) || c == EOF || c == '+' || c == '-'
+/*
+page 97
+As written, getint treats a + or - not followed by a digit as a valid representation of zero. Fix it to push such a
+character back on the input
+*/
+
 int getint(int *);
 
 int main(){
     int *i;
     *i = 2;
-    int gotten; 
+    int gotten;
     while((gotten = getint(i)) || 1){
         if(gotten == EOF){
             return -1;
         }
         if(gotten > 0){
-            printf("%d\n", *i);
+            printf("out %d\n", *i);
         }
     }
 }
-
-#include <ctype.h>
-
-int getch(void);
-void ungetch(int);
-
 int getint(int *pn){
     int c, sign;
 
-    while(isspace(c = getch())){
-        ;
-    }
-
-    if(!isdigit(c) && c != EOF && c != '+' && c != '-'){
-        ungetch(c);
-        return 0;
+    while (isspace(c = getch()) || !(isvalidcharacter(c))){
+            ;
     }
 
     sign = (c == '-') ? -1 : 1;
 
     if(c == '+' || c == '-'){
-        c = getch();
-    }
-    if(c != '.' && !isdigit(c)){
-        printf("%c\n", c);
-        ungetch(c);
-        return 0;
+        int d = getch();
+        if(!isdigit(d)){
+            ungetch(c);
+            return 0;
+        }
+        c = d;
     }
     for(*pn = 0; isdigit(c); c = getch()){
         *pn = 10 * *pn + (c - '0');
-    }    
+    }
 
     *pn *= sign;
 
@@ -53,25 +51,4 @@ int getint(int *pn){
     }
 
     return c;
-}
-
-#define BUFSIZE 100
-
-char buf[BUFSIZE];
-int bufp = 0;
-
-int getch(void){
-    return (bufp > 0) ? buf[--bufp] : getchar();
-}
-
-void ungetch(int c){
-    if(c == EOF){
-        c = ' ';
-    }
-    if(bufp >= BUFSIZE){
-        printf("ungetch: too many characters\n");
-    }
-    else{
-        buf[bufp++] = c;
-    }
 }

@@ -1,4 +1,8 @@
 #include <stdio.h>
+/*
+page 88
+Write a recursive version of the function reverse(s), which reverses the string s in place.
+*/
 
 #define MAX 100
 
@@ -6,14 +10,14 @@ void readLine(char []);
 void reverse(char []);
 
 int main(){
-    char s[7] = {'a','b','c','d','e', 'f','\0'};
+    char s[8] = {'a','b','c','d','e', 'f', 'g', '\0'};
 
     reverse(s);
 
     printf("%s\n", s);
 }
 
- 
+
 int reverser(char s[]);
 int counter;
 
@@ -29,7 +33,7 @@ int reverser(char s[]){
         return 0;
     }
     int i = reverser(s);
-    
+
     if(counter <= i || i < 0){
         return -1;
     }
