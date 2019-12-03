@@ -1,4 +1,8 @@
 #include <stdio.h>
+/*
+page 107
+Rewrite appropriate programs from earlier chapters and exercises with pointers instead of array indexing.
+*/
 
 int getLine(char *);
 

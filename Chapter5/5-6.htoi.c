@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <math.h>
-
+/*
+page 107
+Rewrite appropriate programs from earlier chapters and exercises with pointers instead of array indexing.
+*/
 int htoi(char *);
 int getLine(char *);
 
@@ -13,9 +16,9 @@ int main(){
 	char s[100] = " ";
 
 	getLine(s);
-    
+
 	i = htoi(s);
-    
+
 	printf("\n%d\n", i);
 }
 
