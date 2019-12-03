@@ -1,17 +1,24 @@
 #include <stdio.h>
-
-int strend(char *, char);
+#include <string.h>
+/*
+page 107
+Write the function strend(s,t), which returns 1 if the string occurs at the end of string s, and zero otherwise.
+*/
+int strend(char *, char *);
 
 int main(){
     char amessage[] = "abcde";
-    char bmessage[] = "fghi";
+    char bmessage[] = "defde";
 
-    printf("%d\n", strend(amessage, 'e'));
-    printf("%d\n", strend(amessage, 'a'));
+    printf("%d\n", strend(amessage, "de"));
+    printf("%d\n", strend(amessage, "d"));
+    printf("%d\n", strend(bmessage, "de"));
+    printf("%d\n", strend(bmessage, amessage));
 }
 
-int strend(char *s, char t){
-    while(*++s != '\0'){
+int strend(char *s, char *t){
+    if(*s == '\0'){ return 0; }
+    while(*s++ != *t && *s != '\0'){
     }
-    return *--s == t;
+    return strcmp(s-1, t) == 0 ? 1 : strend(s, t);
 }

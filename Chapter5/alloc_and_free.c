@@ -1,7 +1,7 @@
 #define ALLOCSIZE 10000
 
 static char allocbuf[ALLOCSIZE];
-static char *allocp = allocbuf;
+static char *allocp = allocbuf;//&allocbuf[0], array name is address of 0th element
 
 char *alloc(int n){
     if(allocbuf + ALLOCSIZE - allocp >= n){
