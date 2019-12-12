@@ -3,15 +3,20 @@
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
+/*
+page 118
+Modify the program entab and detab (written as exercises in Chapter 1) to accept a list of tab stops as arguments. Use
+the default tab settings if there are no arguments.
+*/
 
 #define MAXOP 100
 #define MAXVAR 123
 #define NUMBER '0'
 #define SIN 1
-#define EXP 2 
-#define TAN 3 
-#define COS 4 
-#define POW 5 
+#define EXP 2
+#define TAN 3
+#define COS 4
+#define POW 5
 
 int getop(char []);
 void push(double);
@@ -95,7 +100,7 @@ int main(int argc, char *argv[]){
             else if(mathOpIndex == 1 && (islower(type) || isupper(type))){
                 push(type);
                 if(variables[type] != 0){
-                    mathOpIndex = 0; 
+                    mathOpIndex = 0;
                 }
             }
             break;
@@ -184,8 +189,8 @@ void ungetch(int);
 int getop(char *s){
     int hasMinus, hasdig;
     hasdig = hasMinus = 0;
-    
-    if(*s == ' ' || *s == '\t'){ 
+
+    if(*s == ' ' || *s == '\t'){
         return *s;
     }
 
@@ -215,7 +220,7 @@ int getop(char *s){
     return NUMBER;
 }
 
-#define BUFSIZE 1 
+#define BUFSIZE 1
 
 char buf[BUFSIZE];
 int bufp = 0;
