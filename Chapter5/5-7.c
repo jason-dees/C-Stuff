@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <string.h>
+/*
+page 110
+Rewrite readlines to store lines in an array supplied by main, rather than calling alloc to maintain storage.
+*/
 
 #define MAXLINES 5000
 
@@ -57,7 +61,6 @@ void swap(char *v[], int i, int j){
 
 #define MAXLEN 1000
 int getLine(char *, int);
-char *alloc(int);
 
 int readlines(char *lineptr[], int maxlines, char *allocp){
     int len, nlines;
@@ -65,13 +68,14 @@ int readlines(char *lineptr[], int maxlines, char *allocp){
 
     nlines = 0;
     while((len = getLine(line, MAXLEN)) >  0){
+        //if input has more than max lines OR the allocp point + length of line is outside/greater than the allocated size
         if(nlines >= maxlines || (p = (allocp + len)) > ALLOCSIZE){
             return -1;
         }
         else{
-            line[len - 1] = '\0';
-            strcpy(p, line);
-            lineptr[nlines++] = p;
+            line[len - 1] = '\0';//terminate end of line string
+            strcpy(p, line);//copy line into the space allocated starting at p
+            lineptr[nlines++] = p; //set array index to space allocted starting at p
         }
     }
     return nlines;
