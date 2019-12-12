@@ -5,13 +5,14 @@ void month_day(int, int, int *, int *);
 
 int main(){
 	printf("%d\n", day_of_year(1978,5,20));
-	
+
 	int pmonth, pday;
+	//submits pointers of pmonth and pday to function
 	month_day(1, 1, &pmonth, &pday);
 	printf("%d/%d\n", pmonth, pday);
 }
 
-static char (*days)[13] = (char [][13]){
+static char (*days)[] = (char [][13]){
 	{0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
 	{0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
 };
@@ -24,12 +25,12 @@ int day_of_year(int year, int month, int day){
 
 	leap = (year%4 == 0 && year%100) != 0 || year%400 == 0;
 
-	if(day > days[leap][month]){
+	if(day > (*days+leap)[month]){
 		return -1;
 	}
 
 	for(i = 1; i< month; i++){
-		day += days[leap][i];
+		day += (*days+leap)[i];
 	}
 
 	return day;
@@ -46,10 +47,10 @@ void month_day(int year, int yearday, int *pmonth, int *pday){
 		return;
 	}
 
-	for(i = 1; yearday > days[leap][i]; i++){
-		yearday -= days[leap][i];
+	for(i = 1; yearday > (*days+leap)[i]; i++){
+		yearday -= (*days+leap)[i];
 	}
-
+	//changes values of pmonth and pday variables submitted
 	*pmonth = i;
 	*pday = yearday;
 }

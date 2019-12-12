@@ -1,11 +1,15 @@
 #include <stdio.h>
+/*
+page 112
+There is no error checking in day_of_year or month_day. Remedy this defect.
+*/
 
 int day_of_year(int, int, int);
 void month_day(int, int, int *, int *);
 
 int main(){
 	printf("%d\n", day_of_year(1978,5,55));
-	
+
 	int pmonth, pday;
 	month_day(1, 500, &pmonth, &pday);
 	printf("%d/%d\n", pmonth, pday);
