@@ -8,8 +8,9 @@ int main(){
 
 	int pmonth, pday;
 	//submits pointers of pmonth and pday to function
-	month_day(1996, 88, &pmonth, &pday);
-	printf("%d/%d\n", pmonth, pday);
+	int day = 60;
+	month_day(1997, day, &pmonth, &pday);
+	printf("Day %d is %d/%d\n",day, pmonth, pday);
 }
 
 static char *days[2] = {
@@ -24,13 +25,13 @@ int day_of_year(int year, int month, int day){
 	int i, leap;
 
 	leap = (year%4 == 0 && year%100) != 0 || year%400 == 0;
-
-	if(day > (*days+leap)[month]){
+	char *months = *(days + leap);
+	if(day > *(months + month)){
 		return -1;
 	}
 
 	for(i = 1; i< month; i++){
-		day += (*days+leap)[i];
+		day += *(months + i);
 	}
 
 	return day;
@@ -39,16 +40,18 @@ int day_of_year(int year, int month, int day){
 void month_day(int year, int yearday, int *pmonth, int *pday){
 	int i, leap;
 
-	leap = (year%4 == 0 && year%100) != 0 || year%400 == 0;
+	leap = (year%4 == 0 && year%100 != 0) || year%400 == 0;
 
 	if((yearday > 365 && !leap) || (yearday > 366 && leap) || yearday < 1){
 		*pmonth = -1;
 		*pday = -1;
 		return;
 	}
+	//NOT(*days+leap), this is the first array's 0 or 1 value
+	char *months = *(days+leap);
 
-	for(i = 1; yearday > (*days+leap)[i]; i++){
-		yearday -= (*days+leap)[i];
+	for(i = 1; yearday > *(months+i); i++){
+		yearday -= *(months+i);
 	}
 	//changes values of pmonth and pday variables submitted
 	*pmonth = i;
