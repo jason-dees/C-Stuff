@@ -8,13 +8,13 @@ int main(){
 
 	int pmonth, pday;
 	//submits pointers of pmonth and pday to function
-	month_day(1, 1, &pmonth, &pday);
+	month_day(1996, 88, &pmonth, &pday);
 	printf("%d/%d\n", pmonth, pday);
 }
 
-static char (*days)[] = (char [][13]){
-	{0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
-	{0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+static char *days[2] = {
+	(char[]) {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
+	(char[]) {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
 };
 
 int day_of_year(int year, int month, int day){
