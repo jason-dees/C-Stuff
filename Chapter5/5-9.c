@@ -7,13 +7,14 @@ int main(){
 	printf("%d\n", day_of_year(1978,5,20));
 
 	int pmonth, pday;
-	//submits pointers of pmonth and pday to function
+	//submits pointers to pmonth and pday to function
 	int day = 60;
 	month_day(1997, day, &pmonth, &pday);
 	printf("Day %d is %d/%d\n",day, pmonth, pday);
 }
 
-static char *days[2] = {
+//Not a fan of this declaration
+static char *days[] = {
 	(char[]) {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
 	(char[]) {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
 };
@@ -47,7 +48,7 @@ void month_day(int year, int yearday, int *pmonth, int *pday){
 		*pday = -1;
 		return;
 	}
-	//NOT(*days+leap), this is the first array's 0 or 1 value
+	//NOT(*days+leap), this is the first array's 0 or 1 value, then setting i down below compounds this issue
 	char *months = *(days+leap);
 
 	for(i = 1; yearday > *(months+i); i++){
