@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #define MAXLINE 1000
 #define TABLENGTH 4
+/*
+page 118
+Modify the program entab and detab (written as exercises in Chapter 1) to accept a list of tab stops as arguments. Use
+the default tab settings if there are no arguments.
+*/
 
 int getLine(char line[], int maxline);
 void entab(int *, char *, char *);

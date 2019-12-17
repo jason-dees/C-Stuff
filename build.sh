@@ -27,6 +27,8 @@ case "${chapter}-${lesson}" in
         includeshared=falsed ;;
     "5-7.base")
         includeshared=falsed ;;
+    "5-10")
+        includeshared=falsed ;;
 esac
 if [ "$includeshared" = true ] ;
 then

@@ -5,10 +5,11 @@
 #include <ctype.h>
 /*
 page 118
-Modify the program entab and detab (written as exercises in Chapter 1) to accept a list of tab stops as arguments. Use
-the default tab settings if there are no arguments.
+Write the program expr, which evaluates a reverse Polish expression from the command line, where each operator or
+operand is a separate argument. For example
+    expr 2 3 4 + *
+evaluates to 2 * (3+4)
 */
-
 #define MAXOP 100
 #define MAXVAR 123
 #define NUMBER '0'
@@ -34,8 +35,8 @@ int main(int argc, char *argv[]){
     char mathOp[4];
     mathOpIndex = 0;
 
-    while(--argc > 0){
-        type = getop(*++argv);
+    while(--argc > 0 && *++argv) {
+        type = getop(*argv);
         switch(type){
         case NUMBER:
             push(atof(*argv));
@@ -183,9 +184,6 @@ double pop(void){
     return 0.0;
 }
 
-int getch(void);
-void ungetch(int);
-
 int getop(char *s){
     int hasMinus, hasdig;
     hasdig = hasMinus = 0;
@@ -218,22 +216,4 @@ int getop(char *s){
     }
 
     return NUMBER;
-}
-
-#define BUFSIZE 1
-
-char buf[BUFSIZE];
-int bufp = 0;
-
-int getch(void){
-    return (bufp > 0) ? buf[--bufp] : getchar();
-}
-
-void ungetch(int c){
-    if(bufp >= BUFSIZE){
-        printf("ungetch: too many characters\n");
-    }
-    else{
-        buf[bufp++] = c;
-    }
 }
