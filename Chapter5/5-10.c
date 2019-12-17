@@ -36,6 +36,7 @@ int main(int argc, char *argv[]){
     mathOpIndex = 0;
 
     while(--argc > 0 && *++argv) {
+        //In MacOS '*' needs to be '\*' or you just get directory contents, same with '\'
         type = getop(*argv);
         switch(type){
         case NUMBER:
