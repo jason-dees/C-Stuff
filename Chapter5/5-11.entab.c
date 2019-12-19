@@ -40,7 +40,6 @@ int getLine(char s[], int lim){
     return i;
 }
 
-
 void entab(int *tablengths, char *in, char *out){
     int c, i, spaceCount, tabChar, spaceChar, tabCount, tablength;
     spaceCount = 0;
@@ -55,6 +54,9 @@ void entab(int *tablengths, char *in, char *out){
             spaceCount += tablength;
         }
         else{
+            //this counts for custom tab lengths as spaces, so if i submit 3 as an argument it will count 3 spaces as a
+            //tab in addition to the \t character. If i do as i encounter the characters above, it will count 3 spaces
+            //as 3 spaces rather than a tab.
             tabCount = spaceCount / tablength;
             spaceCount = spaceCount % tablength;
             if(tabCount > 0){

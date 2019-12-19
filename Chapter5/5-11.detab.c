@@ -40,7 +40,6 @@ int getLine(char s[], int lim){
     return i;
 }
 
-
 void detab(int *tablengths, char *in, char *out){
     int c, i, j, k, spaceChar, tablength;
     j = k = 0;
