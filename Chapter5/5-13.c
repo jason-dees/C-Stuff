@@ -73,12 +73,13 @@ void tail(int taillength, char *lineptr[], int len){
 }
 
 int getLine(char *s, int lim){
-    int c, i;
-    for(i = 0; i< lim - 1 && (*s = getchar()) != EOF && *s != '\n'; ++i){
+    int i;
+    //I want to refactor this
+    for(i = 0; i< lim - 1 && (*s = getchar()) != EOF && *s != '\n'; i++){
         s++;
     }
-     if(*s == '\n'){
-        ++i;
+    if(*s == '\n'){
+        i++;
     }
     *(++s) = '\0';
     return i;
