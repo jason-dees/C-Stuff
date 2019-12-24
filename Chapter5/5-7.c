@@ -19,9 +19,8 @@ void qsort(char *lineptr[], int left, int right);
 int main(){
     int nlines;
     char allocbuf[ALLOCSIZE];
-    char *allocp = allocbuf;
 
-    if((nlines = readlines(lineptr, MAXLINES, allocp)) >= 0){
+    if((nlines = readlines(lineptr, MAXLINES, allocbuf)) >= 0){
         qsort(lineptr, 0, nlines - 1);
         writelines(lineptr, nlines);
     }
@@ -62,20 +61,20 @@ void swap(char *v[], int i, int j){
 #define MAXLEN 1000
 int getLine(char *, int);
 
-int readlines(char *lineptr[], int maxlines, char *allocp){
+int readlines(char *lineptr[], int maxlines, char allocbuf[]){
     int len, nlines;
     char *p, line[MAXLEN];
+    char *allocp = allocbuf;
 
     nlines = 0;
-    while((len = getLine(line, MAXLEN)) >  0){
+    while((len = getLine(line, MAXLEN)) >  0 && len > 1){
         //if input has more than max lines OR the allocp point + length of line is outside/greater than the allocated size
         if(nlines >= maxlines || allocbuf + ALLOCSIZE - allocp < len){
-            printf("len %d\n", allocp);
             return -1;
         }
-        else {
-            allocp += n;
-            p = allocp-n;
+        else{
+            allocp += len;
+            p = allocp - len;
             line[len-1] = '\0';//terminate end of line string
             strcpy(p, line);//copy line into the space allocated starting at p
             lineptr[nlines++] = p; //set array index to space allocted starting at p
