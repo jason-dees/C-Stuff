@@ -69,11 +69,14 @@ int readlines(char *lineptr[], int maxlines, char *allocp){
     nlines = 0;
     while((len = getLine(line, MAXLEN)) >  0){
         //if input has more than max lines OR the allocp point + length of line is outside/greater than the allocated size
-        if(nlines >= maxlines || (p = (allocp + len)) > ALLOCSIZE){
+        if(nlines >= maxlines || allocbuf + ALLOCSIZE - allocp < len){
+            printf("len %d\n", allocp);
             return -1;
         }
-        else{
-            line[len - 1] = '\0';//terminate end of line string
+        else {
+            allocp += n;
+            p = allocp-n;
+            line[len-1] = '\0';//terminate end of line string
             strcpy(p, line);//copy line into the space allocated starting at p
             lineptr[nlines++] = p; //set array index to space allocted starting at p
         }
@@ -88,14 +91,14 @@ void writelines(char *lineptr[], int nlines){
     }
 }
 
-int getLine(char *s, int maxline){
+int getLine(char *s, int lim){
     int c, i;
-    i = 0;
-
-    while((*s = getchar()) != EOF && *s != '\n' && *s != '\0'){
+    for(i = 0; i< lim - 1 && (*s = getchar()) != EOF && *s != '\n'; ++i){
         s++;
-        i++;
     }
-    *s = '\0';
+     if(*s == '\n'){
+        ++i;
+    }
+    *(++s) = '\0';
     return i;
 }

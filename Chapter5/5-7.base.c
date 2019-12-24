@@ -65,7 +65,7 @@ int readlines(char *lineptr[], int maxlines){
             return -1;
         }
         else{
-            line[len - 1] = '\0';
+            line[len] = '\0';
             strcpy(p, line);
             lineptr[nlines++] = p;
         }
