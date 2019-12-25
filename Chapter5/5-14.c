@@ -9,7 +9,7 @@ void writelines(char *lineptr[], int nlines);
 void reverselines(char *lineptr[], int nlines);
 
 void qSort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
-int numcmp(char *, char *);
+int numcmp(const char *, const char *);
 
 int main(int argc, char *argv[]){
     int nlines;
@@ -69,7 +69,7 @@ void swap(void *v[], int i, int j){
 }
 
 #include <stdlib.h>
-int numcmp(char *s1, char *s2){
+int numcmp(const char *s1, const char *s2){
     double v1, v2;
 
     v1 = atof(s1);
@@ -92,7 +92,7 @@ int readlines(char *lineptr[], int maxlines){
     char *p, line[MAXLEN];
 
     nlines = 0;
-    while((len = getLine(line, MAXLEN)) > 0){
+    while((len = getLine(line, MAXLEN)) > 0 && len > 1){
         if(nlines >= maxlines || (p = alloc(len)) == NULL){
             return -1;
         }
@@ -106,25 +106,29 @@ int readlines(char *lineptr[], int maxlines){
 }
 
 void writelines(char *lineptr[], int nlines){
+    printf("normie \n");
     int i = 0;
     for(i = 0; i< nlines; i++){
         printf("%s\n", lineptr[i]);
     }
 }
 void reverselines(char *lineptr[], int nlines){
+    printf("reverse \n");
     while(--nlines > -1){
         printf("%s\n", lineptr[nlines]);
     }
 }
 
 int getLine(char *s, int lim){
-    int c, i;
-    while(i++ < lim && (c = getchar()) != EOF && c != '\n'){
-        *s++ = c;
+    int i;
+    //I want to refactor this
+    for(i = 0; i< lim - 1 && (*s = getchar()) != EOF && *s != '\n'; i++){
+        s++;
     }
-    if(i == 1 && c == '\n'){
-        --i;
+    if(*s == '\n'){
+        i++;
     }
+    *(++s) = '\0';
     return i;
 }
 

@@ -42,7 +42,6 @@ int main(int argc, char *argv[]){
 #define MAXLEN 1000
 int getLine(char *, int);
 char *alloc(int);
-void strcopy(char *s, char *t);
 
 int readlines(char *lineptr[], int maxlines){
     int len, nlines;
@@ -83,13 +82,6 @@ int getLine(char *s, int lim){
     }
     *(++s) = '\0';
     return i;
-}
-
-void strcopy(char *s, char *t){
-    while((*s = *t) != '\0'){
-        s++;
-        t++;
-    }
 }
 
 #define ALLOCSIZE 10000
