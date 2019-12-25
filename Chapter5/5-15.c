@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <string.h>
+#include "readlines.h"
 
 #define MAXLINES 5000
 char *lineptr[MAXLINES];
 
-int readlines(char *lineptr[], int maxlines);
 void writelines(char *lineptr[], int nlines);
 void reverselines(char *lineptr[], int nlines);
 
 void qSort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
-int numcmp(char *, char *);
+int numcmp(const char *, const char *);
 
 int main(int argc, char *argv[]){
     int nlines;
@@ -73,7 +73,7 @@ void swap(void *v[], int i, int j){
 }
 
 #include <stdlib.h>
-int numcmp(char *s1, char *s2){
+int numcmp(const char *s1, const char *s2){
     double v1, v2;
 
     v1 = atof(s1);
@@ -87,27 +87,6 @@ int numcmp(char *s1, char *s2){
     return 0;
 }
 
-#define MAXLEN 1000
-int getLine(char *, int);
-char *alloc(int);
-
-int readlines(char *lineptr[], int maxlines){
-    int len, nlines;
-    char *p, line[MAXLEN];
-
-    nlines = 0;
-    while((len = getLine(line, MAXLEN)) > 0){
-        if(nlines >= maxlines || (p = alloc(len)) == NULL){
-            return -1;
-        }
-        else {
-            line[len - 1] = '\0';
-            strcpy(p, line);
-            lineptr[nlines++] = p;
-        }
-    }
-    return nlines;
-}
 
 void writelines(char *lineptr[], int nlines){
     int i = 0;
@@ -119,28 +98,4 @@ void reverselines(char *lineptr[], int nlines){
     while(--nlines > -1){
         printf("%s\n", lineptr[nlines]);
     }
-}
-
-int getLine(char *s, int lim){
-    int c, i;
-    while(i++ < lim && (c = getchar()) != EOF && c != '\n'){
-        *s++ = c;
-    }
-    if(i == 1 && c == '\n'){
-        --i;
-    }
-    return i;
-}
-
-#define ALLOCSIZE 10000
-
-static char allocbuf[ALLOCSIZE];
-static char *allocp = allocbuf;
-
-char *alloc(int n){
-    if(allocbuf + ALLOCSIZE - allocp >= n){
-        allocp +=n;
-        return allocp -n;
-    }
-    return 0;
 }

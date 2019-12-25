@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "readlines.h"
+
 #define MAXLINE 1000
 #define TABLENGTH 4
 /*
@@ -8,7 +10,6 @@ Modify the program entab and detab (written as exercises in Chapter 1) to accept
 the default tab settings if there are no arguments.
 */
 
-int getLine(char line[], int maxline);
 void entab(int *, char *, char *);
 
 int main(int argc, char *argv[]){
@@ -25,19 +26,6 @@ int main(int argc, char *argv[]){
         entab(tablengths, line, entabbed);
         printf("%s", entabbed);
     }
-}
-
-int getLine(char s[], int lim){
-    int c, i;
-    for(i = 0; i< lim - 1 && (c = getchar()) != EOF && c != '\n'; ++i){
-        s[i] = c;
-    }
-    if(c == '\n'){
-        s[i] = c;
-        ++i;
-    }
-    s[i] = '\0';
-    return i;
 }
 
 void entab(int *tablengths, char *in, char *out){

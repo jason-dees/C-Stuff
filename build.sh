@@ -23,16 +23,13 @@ case "${chapter}-${lesson}" in
         includeshared=falsed ;;
     "4-11")
         includeshared=falsed ;;
-    "5-7")
-        includeshared=falsed ;;
-    "5-7.base")
-        includeshared=falsed ;;
-    "5-10")
-        includeshared=falsed ;;
-    "5-14")
-        includeshared=falsed ;;
 esac
-if [ "$includeshared" = true ] ;
+FILE=./Chapter${chapter}/build.sh
+if [ -f "$FILE" ] ;then
+    echo "found $FILE"
+    chmod +x ${FILE}
+    ${FILE} ${chapter} ${lesson} 
+elif [ "$includeshared" = true ] ;
 then
     cc ./Chapter${chapter}/${chapter}-${lesson}.c ./Shared/*.c -o ./bin/${chapter}-${lesson}.out
 else
