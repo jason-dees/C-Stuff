@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include "readlines.h"
+/*
+page 121
+Add the option -f to fold upper and lower case together, so that case distinctions are not made during the sorting; for
+example a and A compare equal.
+*/
 
 #define MAXLINES 5000
 char *lineptr[MAXLINES];

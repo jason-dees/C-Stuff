@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #include "readlines.h"
+/*
+page 121
+Modify the sort program to handle a -r flag, which indicates sorting in reverse order. Be sure -r works with -n.
+*/
 
 #define MAXLINES 5000
 char *lineptr[MAXLINES];
