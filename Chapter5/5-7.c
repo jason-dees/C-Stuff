@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <string.h>
+#include "readlines.h"
 /*
 page 110
-Rewrite readlines to store lines in an array supplied by main, rather than calling alloc to maintain storage.
+Rewrite readlinesRefactor to store lines in an array supplied by main, rather than calling alloc to maintain storage.
 */
 
 #define MAXLINES 5000
@@ -11,7 +12,7 @@ Rewrite readlines to store lines in an array supplied by main, rather than calli
 
 char *lineptr[MAXLINES];
 
-int readlines(char *lineptr[], int nlines, char *allocp);
+int readlinesRefactor(char *lineptr[], int nlines, char *allocp);
 void writelines(char *lineptr[], int nlines);
 
 void qsort(char *lineptr[], int left, int right);
@@ -20,7 +21,7 @@ int main(){
     int nlines;
     char allocbuf[ALLOCSIZE];
 
-    if((nlines = readlines(lineptr, MAXLINES, allocbuf)) >= 0){
+    if((nlines = readlinesRefactor(lineptr, MAXLINES, allocbuf)) >= 0){
         qsort(lineptr, 0, nlines - 1);
         writelines(lineptr, nlines);
     }
@@ -59,9 +60,8 @@ void swap(char *v[], int i, int j){
 }
 
 #define MAXLEN 1000
-int getLine(char *, int);
 
-int readlines(char *lineptr[], int maxlines, char allocbuf[]){
+int readlinesRefactor(char *lineptr[], int maxlines, char allocbuf[]){
     int len, nlines;
     char *p, line[MAXLEN];
     char *allocp = allocbuf;
@@ -88,16 +88,4 @@ void writelines(char *lineptr[], int nlines){
     for(i = 0; i< nlines; i++){
         printf("%s\n", lineptr[i]);
     }
-}
-
-int getLine(char *s, int lim){
-    int c, i;
-    for(i = 0; i< lim - 1 && (*s = getchar()) != EOF && *s != '\n'; ++i){
-        s++;
-    }
-     if(*s == '\n'){
-        ++i;
-    }
-    *(++s) = '\0';
-    return i;
 }

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "readlines.h"
 
 #define MAXLINES 5000
 
@@ -51,55 +52,9 @@ void swap(char *v[], int i, int j){
     v[j] = temp;
 }
 
-#define MAXLEN 1000
-int getLine(char *, int);
-char *alloc(int);
-
-int readlines(char *lineptr[], int maxlines){
-    int len, nlines;
-    char *p, line[MAXLEN];
-
-    nlines = 0;
-    while((len = getLine(line, MAXLEN)) >  0){
-        if(nlines >= maxlines || (p = alloc(len)) == NULL){
-            return -1;
-        }
-        else{
-            line[len] = '\0';
-            strcpy(p, line);
-            lineptr[nlines++] = p;
-        }
-    }
-    return nlines;
-}
-
 void writelines(char *lineptr[], int nlines){
     int i;
     for(i = 0; i< nlines; i++){
         printf("%s\n", lineptr[i]);
     }
-}
-
-int getLine(char *s, int maxline){
-    int c, i;
-    i = 0;
-
-    while((*s = getchar()) != EOF && *s != '\n' && *s != '\0'){
-        s++;
-        i++;
-    }
-    *s = '\0';
-    return i;
-}
-
-#define ALLOCSIZE 10000
-static char allocbuf[ALLOCSIZE];
-static char *allocp = allocbuf;
-
-char *alloc(int n){
-    if(allocbuf + ALLOCSIZE - allocp >= n){
-        allocp += n;
-        return allocp - n;
-    }
-    return 0;
 }

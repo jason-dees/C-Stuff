@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ctype.h>
 #include "../Shared/getch.h"
 
 #define isvalidcharacter(c) isdigit(c) || c == EOF || c == '+' || c == '-' || c == '.'

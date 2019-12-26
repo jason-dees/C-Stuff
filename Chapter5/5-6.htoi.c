@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <math.h>
+#include "readlines.h"
 /*
 page 107
 Rewrite appropriate programs from earlier chapters and exercises with pointers instead of array indexing.
 */
 int htoi(char *);
-int getLine(char *);
 
 int main(){
 
@@ -15,23 +15,11 @@ int main(){
 	isValid = 1;
 	char s[100] = " ";
 
-	getLine(s);
+	getLine(s, 200);
 
 	i = htoi(s);
 
 	printf("\n%d\n", i);
-}
-
-int getLine(char *s){
-    int c, i;
-    i = 0;
-
-    while((*s = getchar()) != EOF && *s != '\n' && *s != '\0'){
-        s++;
-        i++;
-    }
-    *s = '\0';
-    return i;
 }
 
 int getNumber(char);
