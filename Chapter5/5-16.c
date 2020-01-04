@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
+#include "readlines.h"
 
 #define MAXLINES 5000
 char *lineptr[MAXLINES];
 
-int readlines(char *lineptr[], int maxlines);
 void writelines(char *lineptr[], int nlines);
 void reverselines(char *lineptr[], int nlines);
 
@@ -19,6 +20,7 @@ int main(int argc, char *argv[]){
     int numeric = 0;
     int ignorecase = 0;
     int directoryorder = 0;
+    int c = 0;
     while((--argc>0) && (((c = (*++argv)[0])=='-')||(c=='+'))){
         if (c=='-' && !isdigit(*(argv[0]+1))){
             while((c = *++argv[0])){
@@ -121,28 +123,6 @@ int dircmp(char *s1, char *s2){
     return strcmp(s1,s2);
 }
 
-#define MAXLEN 1000
-int getLine(char *, int);
-char *alloc(int);
-
-int readlines(char *lineptr[], int maxlines){
-    int len, nlines;
-    char *p, line[MAXLEN];
-
-    nlines = 0;
-    while((len = getLine(line, MAXLEN)) > 0){
-        if(nlines >= maxlines || (p = alloc(len)) == NULL){
-            return -1;
-        }
-        else {
-            line[len - 1] = '\0';
-            strcpy(p, line);
-            lineptr[nlines++] = p;
-        }
-    }
-    return nlines;
-}
-
 void writelines(char *lineptr[], int nlines){
     int i = 0;
     for(i = 0; i< nlines; i++){
@@ -153,28 +133,4 @@ void reverselines(char *lineptr[], int nlines){
     while(--nlines > -1){
         printf("%s\n", lineptr[nlines]);
     }
-}
-
-int getLine(char *s, int lim){
-    int c, i;
-    while(i++ < lim && (c = getchar()) != EOF && c != '\n'){
-        *s++ = c;
-    }
-    if(i == 1 && c == '\n'){
-        --i;
-    }
-    return i;
-}
-
-#define ALLOCSIZE 10000
-
-static char allocbuf[ALLOCSIZE];
-static char *allocp = allocbuf;
-
-char *alloc(int n){
-    if(allocbuf + ALLOCSIZE - allocp >= n){
-        allocp +=n;
-        return allocp -n;
-    }
-    return 0;
 }
