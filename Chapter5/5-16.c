@@ -2,6 +2,11 @@
 #include <string.h>
 #include <ctype.h>
 #include "readlines.h"
+/*
+page 121
+Add the -d ("directory order") option, which makes comparisons only on letters, numbers and blanks. Make sure it works
+in conjuction with -f.
+*/
 
 #define MAXLINES 5000
 char *lineptr[MAXLINES];
@@ -47,7 +52,7 @@ int main(int argc, char *argv[]){
         qSort((void **) lineptr, 0, nlines -1,
             (int (*)(void*, void*))(numeric ? numcmp: ignorecase ? strcasecmp : directoryorder ? dircmp : strcmp));
         if(direction){
-            writelines(lineptr, nlines); 
+            writelines(lineptr, nlines);
         }
         else{
             reverselines(lineptr, nlines);
@@ -93,7 +98,7 @@ void strclean(char *s){
     j = 0;
     while((c = s[i++]) != '\0'){
         if(c == ' ' || (c >= 'A' && c <='Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')){
-            s[j++] = c;            
+            s[j++] = c;
         }
         else{
         }
