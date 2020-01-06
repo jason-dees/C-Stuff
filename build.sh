@@ -28,12 +28,13 @@ FILE=./Chapter${chapter}/build.sh
 if [ -f "$FILE" ] ;then
     echo "found $FILE"
     chmod +x ${FILE}
-    ${FILE} ${chapter} ${lesson} 
+    ${FILE} ${chapter} ${lesson}
 elif [ "$includeshared" = true ] ;
 then
     cc ./Chapter${chapter}/${chapter}-${lesson}.c ./Shared/*.c -o ./bin/${chapter}-${lesson}.out
 else
     cc ./Chapter${chapter}/${chapter}-${lesson}.c -o ./bin/${chapter}-${lesson}.out
 fi
+echo "running ./bin/${chapter}-${lesson}.out"
 ./bin/${chapter}-${lesson}.out
 #make chapter=$1 exercise=$2

@@ -3,7 +3,6 @@
 #include "readlines.h"
 
 #define MAXLEN 1000
-char *alloc(int);
 
 int readlines(char *lineptr[], int maxlines){
     int len, nlines;
@@ -16,7 +15,7 @@ int readlines(char *lineptr[], int maxlines){
             return -1;
         }
         else {
-            //This terminates the string since alloc(len) only allocates room for up to the new line, thus not 
+            //This terminates the string since alloc(len) only allocates room for up to the new line, thus not
             //terminating the string
             line[len - 1] = '\0';
             strcpy(p, line);

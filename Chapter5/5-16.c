@@ -14,17 +14,20 @@ char *lineptr[MAXLINES];
 void writelines(char *lineptr[], int nlines);
 void reverselines(char *lineptr[], int nlines);
 
-void qSort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
+void qSort(void *lineptr[], int left, int right, int dircomp, int (*comp)(void *, void *));
 int numcmp(char *, char *);
 int dircmp(char *, char *);
+int strcasecmp_custom(char *, char *);
+int strcmp_custom(char *, char *);
 
+
+int directoryorder = 1;
 int main(int argc, char *argv[]){
     int nlines;
 
-    int direction = 1;
     int numeric = 0;
     int ignorecase = 0;
-    int directoryorder = 0;
+    int direction = 1;
     int c = 0;
     while((--argc>0) && (((c = (*++argv)[0])=='-')||(c=='+'))){
         if (c=='-' && !isdigit(*(argv[0]+1))){
@@ -49,8 +52,8 @@ int main(int argc, char *argv[]){
         }
     }
     if((nlines = readlines(lineptr, MAXLINES)) >= 0){
-        qSort((void **) lineptr, 0, nlines -1,
-            (int (*)(void*, void*))(numeric ? numcmp: ignorecase ? strcasecmp : directoryorder ? dircmp : strcmp));
+        qSort((void **) lineptr, 0, nlines -1, directoryorder,
+            (int (*)(void*, void*))(numeric ? numcmp: ignorecase ? strcasecmp_custom : strcmp_custom));
         if(direction){
             writelines(lineptr, nlines);
         }
@@ -62,7 +65,9 @@ int main(int argc, char *argv[]){
     return 1;
 }
 
-void qSort(void *v[], int left, int right, int (*comp)(void *, void*)){
+void strclean(char *s);
+void strcleancpy(char *dest, char *src);
+void qSort(void *v[], int left, int right, int dircomp, int (*comp)(void *, void*)){
     int i, last;
     void swap(void *v[], int, int);
 
@@ -80,8 +85,8 @@ void qSort(void *v[], int left, int right, int (*comp)(void *, void*)){
     }
 
     swap(v, left, last);
-    qSort(v, left, last - 1, comp);
-    qSort(v, last + 1, right, comp);
+    qSort(v, left, last - 1, dircomp, comp);
+    qSort(v, last + 1, right, dircomp, comp);
 }
 
 void swap(void *v[], int i, int j){
@@ -90,6 +95,16 @@ void swap(void *v[], int i, int j){
     temp = v[i];
     v[i] = v[j];
     v[j] = temp;
+}
+void strcleancpy(char *dest, char *src){
+    printf("%s\n", dest);
+    while((*src) != '\0'){
+        if(*src == ' ' || (*src >= 'A' && *src <='Z') || (*src >= 'a' && *src <= 'z') || (*src >= '0' && *src <= '9')){
+            *dest++ = *src;
+        }
+        src++;
+    }
+    *dest = '\0';
 }
 
 void strclean(char *s){
@@ -121,13 +136,6 @@ int numcmp(char *s1, char *s2){
     return 0;
 }
 
-void strclean(char *s);
-int dircmp(char *s1, char *s2){
-    strclean(s1);
-    strclean(s2);
-    return strcmp(s1,s2);
-}
-
 void writelines(char *lineptr[], int nlines){
     int i = 0;
     for(i = 0; i< nlines; i++){
@@ -138,4 +146,24 @@ void reverselines(char *lineptr[], int nlines){
     while(--nlines > -1){
         printf("%s\n", lineptr[nlines]);
     }
+}
+int strcasecmp_custom(char *s1, char *s2){
+    if(directoryorder == 1){
+        char *clean1 = alloc(strlen(s1));
+        char *clean2 = alloc(strlen(s2));
+        strcleancpy(clean1, s1);
+        strcleancpy(clean2, s2);
+        return strcasecmp(clean1, clean2);
+    }
+    return strcasecmp(s1,s2);
+}
+int strcmp_custom(char *s1, char *s2){
+    if(directoryorder == 1){
+        char *clean1 = alloc(strlen(s1));
+        char *clean2 = alloc(strlen(s2));
+        strcleancpy(clean1, s1);
+        strcleancpy(clean2, s2);
+        return strcmp(clean1, clean2);
+    }
+    return strcmp(s1,s2);
 }
