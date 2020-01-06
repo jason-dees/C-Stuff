@@ -1,10 +1,18 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include "readlines.h"
+/*
+page 121
+Add a field-handling capability, so sorting may be done on fields within lines, each field sorted according to an
+independent set of options. (the index for this book was sorted with -df for the index category and -n for the page
+numbers.)
+*/
 
 #define MAXLINES 5000
 char *lineptr[MAXLINES];
 
-int readlines(char *lineptr[], int maxlines);
 void writelines(char *lineptr[], int nlines);
 void reverselines(char *lineptr[], int nlines);
 
@@ -55,7 +63,7 @@ int main(int argc, char *argv[]){
     if((nlines = readlines(lineptr, MAXLINES)) >= 0){
         qSort((void **) lineptr, 0, nlines -1, comparer);
         if(direction){
-            writelines(lineptr, nlines); 
+            writelines(lineptr, nlines);
         }
         else{
             reverselines(lineptr, nlines);
@@ -73,7 +81,7 @@ int maincmp(char *s1, char *s2){
         substr(s2, out2);
         return comparer(out1, out2);
         //substring
-    } 
+    }
     else{
         return comparer(s1, s2);
     }
@@ -82,7 +90,7 @@ void substr(char *s, char *out)
 {
     int i, j, len;
     extern int pos1, pos2;
-     
+
     len = strlen(s);
     if(pos2 > 0 && len > pos2)
         len = pos2;
@@ -128,7 +136,7 @@ void strclean(char *s){
     j = 0;
     while((c = s[i++]) != '\0'){
         if(c == ' ' || (c >= 'A' && c <='Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')){
-            s[j++] = c;            
+            s[j++] = c;
         }
         else{
         }
@@ -157,29 +165,6 @@ int dircmp(char *s1, char *s2){
     strclean(s2);
     return strcmp(s1,s2);
 }
-
-#define MAXLEN 1000
-int getLine(char *, int);
-char *alloc(int);
-
-int readlines(char *lineptr[], int maxlines){
-    int len, nlines;
-    char *p, line[MAXLEN];
-
-    nlines = 0;
-    while((len = getLine(line, MAXLEN)) > 0){
-        if(nlines >= maxlines || (p = alloc(len)) == NULL){
-            return -1;
-        }
-        else {
-            line[len - 1] = '\0';
-            strcpy(p, line);
-            lineptr[nlines++] = p;
-        }
-    }
-    return nlines;
-}
-
 void writelines(char *lineptr[], int nlines){
     int i = 0;
     for(i = 0; i< nlines; i++){
@@ -190,28 +175,4 @@ void reverselines(char *lineptr[], int nlines){
     while(--nlines > -1){
         printf("%s\n", lineptr[nlines]);
     }
-}
-
-int getLine(char *s, int lim){
-    int c, i;
-    while(i++ < lim && (c = getchar()) != EOF && c != '\n'){
-        *s++ = c;
-    }
-    if(i == 1 && c == '\n'){
-        --i;
-    }
-    return i;
-}
-
-#define ALLOCSIZE 10000
-
-static char allocbuf[ALLOCSIZE];
-static char *allocp = allocbuf;
-
-char *alloc(int n){
-    if(allocbuf + ALLOCSIZE - allocp >= n){
-        allocp +=n;
-        return allocp -n;
-    }
-    return 0;
 }
