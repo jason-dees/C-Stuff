@@ -21,7 +21,7 @@ int strcasecmp_custom(char *, char *);
 int strcmp_custom(char *, char *);
 
 
-int directoryorder = 1;
+int directoryorder = 0;
 int main(int argc, char *argv[]){
     int nlines;
 

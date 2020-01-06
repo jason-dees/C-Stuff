@@ -20,6 +20,8 @@ void qSort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
 int numcmp(char *, char *);
 int dircmp(char *, char *);
 int maincmp(char *, char *);
+int strcasecmp_custom(char *, char *);
+int strcmp_custom(char *, char *);
 
 int pos1 = 0;
 int pos2 = 0;
@@ -74,7 +76,7 @@ int main(int argc, char *argv[]){
 }
 void substr(char *s, char *out);
 int maincmp(char *s1, char *s2){
-    int (*comparer)(void*, void*) = (numeric ? numcmp: ignorecase ? strcasecmp : directoryorder ? dircmp : strcmp);
+    int (*comparer)(void*, void*) = (numeric ? numcmp: ignorecase ? strcasecmp_custom : strcmp_custom);
     if(pos2 > 0){
         char out1[100], out2[100];
         substr(s1, out1);
@@ -160,11 +162,23 @@ int numcmp(char *s1, char *s2){
 }
 
 void strclean(char *s);
+void strcleancpy(char *dest, char *src);
 int dircmp(char *s1, char *s2){
     strclean(s1);
     strclean(s2);
     return strcmp(s1,s2);
 }
+void strcleancpy(char *dest, char *src){
+    printf("%s\n", dest);
+    while((*src) != '\0'){
+        if(*src == ' ' || (*src >= 'A' && *src <='Z') || (*src >= 'a' && *src <= 'z') || (*src >= '0' && *src <= '9')){
+            *dest++ = *src;
+        }
+        src++;
+    }
+    *dest = '\0';
+}
+
 void writelines(char *lineptr[], int nlines){
     int i = 0;
     for(i = 0; i< nlines; i++){
@@ -175,4 +189,25 @@ void reverselines(char *lineptr[], int nlines){
     while(--nlines > -1){
         printf("%s\n", lineptr[nlines]);
     }
+}
+
+int strcasecmp_custom(char *s1, char *s2){
+    if(directoryorder == 1){
+        char *clean1 = alloc(strlen(s1));
+        char *clean2 = alloc(strlen(s2));
+        strcleancpy(clean1, s1);
+        strcleancpy(clean2, s2);
+        return strcasecmp(clean1, clean2);
+    }
+    return strcasecmp(s1,s2);
+}
+int strcmp_custom(char *s1, char *s2){
+    if(directoryorder == 1){
+        char *clean1 = alloc(strlen(s1));
+        char *clean2 = alloc(strlen(s2));
+        strcleancpy(clean1, s1);
+        strcleancpy(clean2, s2);
+        return strcmp(clean1, clean2);
+    }
+    return strcmp(s1,s2);
 }
