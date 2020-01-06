@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "../Shared/getch.h"
+/*
+page 126
+Modify undcl so that it does not add redundant parentheses to declarations.
+*/
 
 #define MAXTOKEN 100
 
@@ -117,25 +122,5 @@ int gettoken(void){
     }
     else{
         return tokentype = c;
-    }
-}
-#define BUFSIZE 100
-
-char buf[BUFSIZE];
-int bufp = 0;
-
-int getch(void){
-    return (bufp > 0) ? buf[--bufp] : getchar();
-}
-
-void ungetch(int c){
-    if(c == EOF){
-        c = ' ';
-    }
-    if(bufp >= BUFSIZE){
-        printf("ungetch: too many characters\n");
-    }
-    else{
-        buf[bufp++] = c;
     }
 }

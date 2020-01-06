@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "../Shared/getch.h"
+/*
+page 126
+Expand dcl to handle declarations with function argument types, qualifiers like const, and so on.
+*/
 
 #define MAXTOKEN 100
 
@@ -134,30 +139,5 @@ int gettoken(void){
     }
     else{
         return tokentype = c;
-    }
-}
-
-#define BUFSIZE 100
-
-char buf[BUFSIZE];
-int bufp = 0;
-
-void clearbuff(){
-    bufp = 0;
-}
-
-int getch(void){
-    return (bufp > 0) ? buf[--bufp] : getchar();
-}
-
-void ungetch(int c){
-    if(c == EOF){
-        c = ' ';
-    }
-    if(bufp >= BUFSIZE){
-        printf("ungetch: too many characters\n");
-    }
-    else{
-        buf[bufp++] = c;
     }
 }

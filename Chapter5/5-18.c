@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "../Shared/getch.h"
+/*
+page 126
+Make dcl recover from input errors.
+*/
 
 #define MAXTOKEN 100
 
@@ -10,7 +15,6 @@ void dcl(void);
 void dirdcl(void);
 
 int gettoken(void);
-void clearbuff();
 int tokentype;
 char token[MAXTOKEN];
 char name[MAXTOKEN];
@@ -120,29 +124,5 @@ int gettoken(void){
     }
     else{
         return tokentype = c;
-    }
-}
-#define BUFSIZE 100
-
-char buf[BUFSIZE];
-int bufp = 0;
-
-void clearbuff(){
-    bufp = 0;
-}
-
-int getch(void){
-    return (bufp > 0) ? buf[--bufp] : getchar();
-}
-
-void ungetch(int c){
-    if(c == EOF){
-        c = ' ';
-    }
-    if(bufp >= BUFSIZE){
-        printf("ungetch: too many characters\n");
-    }
-    else{
-        buf[bufp++] = c;
     }
 }
