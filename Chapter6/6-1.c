@@ -1,4 +1,8 @@
-
+/*
+page 136
+Our version of getword does not properly handle underscores, string constants, comments, or preprocessor control lines. 
+Write a better verions.
+*/
 struct key {
     char *word;
     int count;
@@ -74,9 +78,6 @@ struct key *binsearch(char *word, struct key *tab, int n){
 
 #include <ctype.h>
 
-int getch(void);
-void ungetch(int);
-
 int getword(char *word, int lim){
     int c, getch(void);
     void ungetch(int);
@@ -99,22 +100,4 @@ int getword(char *word, int lim){
     }
     *w = '\0';
     return word[0];
-}
-
-#define BUFSIZE 1000
-
-char buf[BUFSIZE];
-int bufp = 0;
-
-int getch(void){
-    return (bufp > 0) ? buf[--bufp] : getchar();
-}
-
-void ungetch(int c){
-    if(bufp >= BUFSIZE){
-        printf("ungetch: too many characters\n");
-    }
-    else{
-        buf[bufp++] = c;
-    }
 }
