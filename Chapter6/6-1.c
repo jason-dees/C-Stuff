@@ -24,6 +24,7 @@ struct key {
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include "../Shared/getch.h"
 
 #define MAXWORD 100
 #define NKEYS (sizeof keytab / sizeof(struct key))
@@ -35,10 +36,18 @@ int isvalidchar(char);
 int main(){
     char word[MAXWORD];
     struct key *p;
+    int isInComment = 0;
 
     while(getword(word, MAXWORD) != EOF){
         if(isvalidchar(word[0])){
-            if((p = binsearch(word, keytab, NKEYS)) != NULL){
+            printf("%s\n", word);
+            if(isInComment == 0 && strcmp(word,"/*") == 0){
+                isInComment = 1;
+            }
+            else if(isInComment == 1 && strcmp(word,"*/") == 0){
+                isInComment = 0;
+            }
+            if((p = binsearch(word, keytab, NKEYS)) != NULL && isInComment == 0){
                 p->count++;
             }
         }
@@ -52,7 +61,7 @@ int main(){
 }
 
 int isvalidchar(char c){
-    return isalpha(c) || c == '#';
+    return isalpha(c) || c == '#' || c == '_' || c == '/' || c == '*';
 }
 
 struct key *binsearch(char *word, struct key *tab, int n){
