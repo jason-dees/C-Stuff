@@ -8,15 +8,28 @@ struct tnode {
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdlib.h>
 #include "../Shared/getword.h"
+/*
+page 143
+Write a program that reads a C program and prints in alphabetical order each group of variable  names that are
+identical in the first 6 characters, but different somewhere thereafter. Don't count words within strings and comments.
+Make 6 a paramter that can be set from the command line.
+*/
 
 #define MAXWORD 100
 struct tnode *addtree(struct tnode *, char *);
 void treeprint(struct tnode *);
+int isVariableDecl(char *);
 
-int main(){
+int main(int argc, char *argv[]){
     struct tnode *root;
     char word[MAXWORD];
+    int sameCharacters = 6;
+    if(argc == 2){
+        sameCharacters = atoi(*++argv);
+        printf("Setting sameCharacters to %d\n", sameCharacters);
+    }
 
     root = NULL;
     while(getword(word, MAXWORD) != EOF){
@@ -26,6 +39,9 @@ int main(){
     }
     treeprint(root);
     return 0;
+}
+int isVariableDecl(char *word){
+
 }
 
 struct tnode *talloc(void);
