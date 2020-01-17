@@ -72,9 +72,6 @@ int main(int argc, char *argv[]){
     return 0;
 }
 int getWordTypeDecl(char *word){
-    //How do i want to say, 'no this is a function declaration'?
-    //Potentionally 4 words here ('struct', 'type', 'someFunc', '(' ))
-    //Have to count for 'struct sname varName', another 3 words
     if(strcmp("struct", word) == 0){
         return structword;
     }
