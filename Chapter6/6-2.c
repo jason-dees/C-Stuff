@@ -7,8 +7,8 @@ struct tnode {
 
 #include <stdio.h>
 #include <ctype.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include "../Shared/getword.h"
 /*
 page 143
@@ -19,32 +19,112 @@ Make 6 a paramter that can be set from the command line.
 
 #define MAXWORD 100
 struct tnode *addtree(struct tnode *, char *);
+struct tnode *addtreeTake(struct tnode *, char *, int);
 void treeprint(struct tnode *);
-int isVariableDecl(char *);
+int getWordTypeDecl(char *);
+int isIgnorable(char *);
+int isCommentStart(char *);
+#define structword 0
+#define typeword 1
+#define variableword 2
+#define something 200
+#define commaword 250
+#define parenopenword 300
+#define parencloseword 350
+#define bracketopenword 400
+#define bracketcloseword 450
+#define nothing 500
+#define slash 600
+#define star 650
+#define semicolon 800
+#define doublequoteword 900
+#define singlequoteword 950
 
 int main(int argc, char *argv[]){
-    struct tnode *root;
+    struct tnode *root ;
     char word[MAXWORD];
     int sameCharacters = 6;
+    int previousWords[] = {nothing, nothing, nothing, nothing, nothing};
+    int previousWordCounter = 0;
     if(argc == 2){
         sameCharacters = atoi(*++argv);
         printf("Setting sameCharacters to %d\n", sameCharacters);
     }
 
     root = NULL;
+    int isInComment = 0;
     while(getword(word, MAXWORD) != EOF){
-        if(isalpha(word[0])){
-            root = addtree(root, word);
+        int wordType = getWordTypeDecl(word);
+        if(wordType == semicolon){
+            previousWords[0] = nothing;
+            previousWordCounter = 0;
+        }
+        else if(wordType == typeword){
+            previousWords[previousWordCounter++] = wordType;
+        }
+        // else if(previousWords[0] == typeword && previousWords[1] == star){
+        // }
+        else if(previousWords[0] == typeword && wordType == something){
+            root = addtreeTake(root, word, sameCharacters);
         }
     }
     treeprint(root);
     return 0;
 }
-int isVariableDecl(char *word){
-
+int getWordTypeDecl(char *word){
+    //How do i want to say, 'no this is a function declaration'?
+    //Potentionally 4 words here ('struct', 'type', 'someFunc', '(' ))
+    //Have to count for 'struct sname varName', another 3 words
+    if(strcmp("struct", word) == 0){
+        return structword;
+    }
+    if (strcmp("int", word) == 0 || strcmp("char", word) == 0)
+    {
+        return typeword;
+    }
+    if(*word == '\\'){
+        return slash;
+    }
+    if(*word == '*'){
+        return star;
+    }
+    if(*word == ';'){
+        return semicolon;
+    }
+    if(*word == '('){
+        return parenopenword;
+    }
+    if(*word == ')'){
+        return parencloseword;
+    }
+    if(*word == '['){
+        return bracketopenword;
+    }
+    if(*word == ']'){
+        return bracketcloseword;
+    }
+    if(*word == '"'){
+        return doublequoteword;
+    }
+    if(*word == '\''){
+        return singlequoteword;
+    }
+    if(*word == ','){
+        return commaword;
+    }
+    if(isalpha(*word)){
+        return something;
+    }
+    return nothing;
 }
 
 struct tnode *talloc(void);
+
+struct tnode *addtreeTake(struct tnode *p, char *w, int length){
+    p = addtree(p, strndup(w, length));
+    printf("%s\n", p->word);
+    return p;
+}
 
 struct tnode *addtree(struct tnode *p, char *w){
     int cond;
