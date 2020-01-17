@@ -119,7 +119,6 @@ struct tnode *talloc(void);
 
 struct tnode *addtreeTake(struct tnode *p, char *w, int length){
     p = addtree(p, strndup(w, length));
-    printf("%s\n", p->word);
     return p;
 }
 
