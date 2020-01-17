@@ -11,41 +11,65 @@ struct tnode {
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
-#include "../Shared/getword.h"
+#include "../Shared/getLine.h"
+/*
+page 143
+Write a cross-referencer that prints a list of all the words in a document, and, for each word,a list of the line
+numbers on which it occurs. Remove noise words like "the," "and," and so on.
+*/
 
+struct tnode *addtreeLine(struct tnode *, char *, int);
 struct tnode *addtree(struct tnode *, char *, int);
 void treeprint(struct tnode *);
 int isnotnoise(char *);
 
 int main(){
     struct tnode *root;
-    char word[MAXWORD];
-    int line = 1;
+    char line[MAXWORD];
+    int lineCount = 1;
+    int len = 0;
 
     root = NULL;
-    while(getword(word, MAXWORD) != EOF){
-        int notnoise = isnotnoise(word);
-        printf("%d %s\n", notnoise, word);
-        if(isalpha(word[0]) && notnoise){
-            root = addtree(root, word, line++);
-        }
+    while((len = getLine(line, MAXWORD)) > 0){
+        root = addtreeLine(root, line, lineCount++);
     }
     treeprint(root);
     return 0;
 }
 
+
 int isnotnoise(char *word){
-    return strcmp(word, "the") != 0 
+    return strcmp(word, "the") != 0
         && strcmp(word, "and") != 0
         && strcmp(word, "a") != 0
+        && strcmp(word, "or") != 0
+        && strcmp(word, "nor") != 0
         && strcmp(word, "but") != 0;
 }
 
+struct tnode *addtreeLine(struct tnode *p, char *l, int line){
+    char word[MAXWORD];
+    while(*l != '\0'){
+        while(isspace(*l++)){
+            ;
+        }
+        l--;
+        int lim = MAXWORD;
+        char *wp = (char *)word;
+        while(--lim > 0 && isalpha(*wp++ = *l++)){
+        }
+        l--;
+        *--wp = '\0';
+        if(isnotnoise(wp) && word[0] != '\0'){
+            p = addtree(p, word, line);
+        }
+    }
+    return p;
+}
 struct tnode *talloc(void);
 
 struct tnode *addtree(struct tnode *p, char *w, int line){
     int cond;
-
     if(p == NULL){
         p = talloc();
         p->word = strdup(w);
