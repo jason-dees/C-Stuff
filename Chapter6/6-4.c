@@ -9,11 +9,16 @@ struct tnode {
 #include <ctype.h>
 #include <string.h>
 #include "../Shared/getword.h"
+/*
+page 143
+Write a program that prints the distinct words in ints input sorted into decreasing order of frequency of occurrence. 
+Precede each word by its count.
+*/
 
 #define MAXWORD 100
 struct tnode *addtree(struct tnode *, char *);
 void treeprint(struct tnode *);
-struct tnode  *rebalancetocount(struct tnode *);
+void rebalancetocount(struct tnode *);
 
 int main(){
     struct tnode *root;
@@ -57,7 +62,7 @@ void swap(struct tnode *, struct tnode *);
 void place(struct tnode *, struct tnode *);
 struct tnode *copytnode(struct tnode *);
 
-struct tnode *rebalancetocount(struct tnode *p){
+void rebalancetocount(struct tnode *p){
     struct tnode *root;
     root = copytnode(p);
     //Still not quite right. I need to compare the right and left sides against each other too
@@ -88,12 +93,13 @@ void place(struct tnode *p, struct tnode *n){
     }
 }
 
-struct tonode *copytnode(struct tnode *p){
+struct tnode *copytnode(struct tnode *p){
     struct tnode *c;
     c = talloc();
     c->word = p->word;
     c->count = p->count;
     c->left = c->right = NULL;
+    return c;
 }
 
 void swap(struct tnode *p, struct tnode *q){
