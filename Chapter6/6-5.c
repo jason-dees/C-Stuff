@@ -7,6 +7,11 @@ struct nlist{
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
+/*
+page 145
+Write a function undef that will remove a name and definition from the table maintained by lookup and install.
+*/
 
 #define HASHSIZE 101
 
@@ -18,16 +23,17 @@ unsigned hash(char *s){
     for(hashval = 0; *s != '\0'; s++){
         hashval = *s + 31 * hashval;
     }
-    return hashval;
+    return hashval % HASHSIZE;
 }
 
 /* lookup: look for s in hashtab */
 struct nlist *lookup(char *s){
     struct nlist *np;
 
-    for(np = hashtab[hash(s)]; np != NULL; np = np->next)
+    for(np = hashtab[hash(s)]; np != NULL; np = np->next) {
         if(strcmp(s, np->name) == 0)
             return np;
+    }
     return NULL;
 }
 
@@ -55,5 +61,34 @@ struct nlist *install(char *name, char *defn){
     return np;
 }
 
+void undef(char *);
+
 int main(){
+    install("bB", "thingc");
+    install("aa", "thingd");
+    struct nlist *a = lookup("bB");
+    printf("bB: %s\n",a->defn);
+    undef("bB");
+    a = lookup("aa");
+    printf("%d\n", a == NULL);
+}
+
+void undef(char *name){
+    struct nlist *np;
+    unsigned hashval; 
+
+    if((np = lookup(name)) == NULL){ //Not Found
+        return;
+    }
+    else {
+       hashval = hash(name); 
+       np = hashtab[hashval];
+       if(np == NULL) return;
+       do {
+           if(strcmp(np->name, name) == 0){
+               hashtab[hashval] = NULL;
+           }
+       }
+       while((np = np->next) != NULL);
+    }
 }
