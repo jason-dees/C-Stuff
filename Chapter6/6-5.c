@@ -64,13 +64,14 @@ struct nlist *install(char *name, char *defn){
 void undef(char *);
 
 int main(){
-    install("bB", "thingc");
-    install("aa", "thingd");
+    install("bB", "thingb");
+    install("aa", "thinga");
+    install("di", "thingd");
     struct nlist *a = lookup("bB");
     printf("bB: %s\n",a->defn);
     undef("bB");
-    a = lookup("aa");
-    printf("%d\n", a == NULL);
+    a = lookup("bB");
+    printf("is null %d\n", a == NULL);
 }
 
 void undef(char *name){
@@ -86,7 +87,14 @@ void undef(char *name){
        if(np == NULL) return;
        do {
            if(strcmp(np->name, name) == 0){
-               hashtab[hashval] = NULL;
+               //need to remove the node
+               //point previous node->next to node->next
+               printf("removing %s\n", np->name);
+               np = np->next;
+               return;
+           }
+           else{
+               printf("not %s\n", np->name);
            }
        }
        while((np = np->next) != NULL);
