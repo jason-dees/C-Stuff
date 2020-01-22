@@ -69,8 +69,8 @@ int main(){
     install("di", "thingd");
     struct nlist *a = lookup("bB");
     printf("bB: %s\n",a->defn);
-    undef("bB");
-    a = lookup("bB");
+    undef("aa");
+    a = lookup("aa");
     printf("is null %d\n", a == NULL);
 }
 
@@ -86,15 +86,9 @@ void undef(char *name){
        np = hashtab[hashval];
        if(np == NULL) return;
        do {
-           if(strcmp(np->name, name) == 0){
-               //need to remove the node
-               //point previous node->next to node->next
-               printf("removing %s\n", np->name);
-               np = np->next;
-               return;
-           }
-           else{
-               printf("not %s\n", np->name);
+           hashtab[hashval] = NULL;
+           if(strcmp(np->name, name) != 0){
+               install(np->name, np->defn);
            }
        }
        while((np = np->next) != NULL);
