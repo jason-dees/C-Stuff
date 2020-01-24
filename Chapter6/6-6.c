@@ -13,7 +13,7 @@ struct nlist{
 #include "../Shared/getLine.h"
 /*
 page 145
-Implement a simple version of the #define preprocessor (i.e. no arguments) suitable for use with C programs, based on 
+Implement a simple version of the #define preprocessor (i.e. no arguments) suitable for use with C programs, based on
 the routines of this section. You may also find getch and ungetch helpful.
 */
 
@@ -68,13 +68,13 @@ struct nlist *install(char *name, char *defn){
 void undef(char *);
 void undef(char *name){
     struct nlist *np;
-    unsigned hashval; 
+    unsigned hashval;
 
     if((np = lookup(name)) == NULL){ //Not Found
         return;
     }
     else {
-       hashval = hash(name); 
+       hashval = hash(name);
        np = hashtab[hashval];
        if(np == NULL) return;
        do {
@@ -89,14 +89,50 @@ void undef(char *name){
     }
 }
 
+struct nlist *getdefine(char *line){
+    //cycle through name
+    //cycle through definition
+    char name[MAXWORD];
+    char defn[MAXWORD];
+    struct nlist *p;
+    //cycle through #define
+    while (*line++ != ' ') {
+        ;
+    }
+    //end of #define
+    //Start of name
+    int lim = MAXWORD;
+    char *wp = (char *)name;
+    while (--lim > 0 && isalpha(*wp++ = *line++))
+    {
+    }
+    *--wp = '\0';
+    printf("Name: %s\n", name);
+    //end of name
+    //start of definition
+    lim = MAXWORD;
+    wp = (char *)defn;
+    while (--lim > 0 && (*wp++ = *line++))
+    {
+    }
+    *--wp = '\0';
+    printf("Definition: %s\n", defn);
+    //end of definition
+
+    p->name = strdup(name);
+    p->defn = strdup(defn);
+    return p;
+}
+
 int main(){
     char line[MAXWORD];
     int lineCount = 1;
     int len = 0;
 
     while((len = getLine(line, MAXWORD)) > 0){
-        if(strncmp("#define", line, 7)){
-
+        if(strncmp("#define", line, 7) == 0){
+            struct nlist *definition = getdefine(line);
+            install(definition->name, definition->defn);
         }
     }
 }
