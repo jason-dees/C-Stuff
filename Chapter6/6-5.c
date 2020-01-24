@@ -72,6 +72,8 @@ int main(){
     undef("aa");
     a = lookup("aa");
     printf("is null %d\n", a == NULL);
+    a = lookup("bB");
+    printf("is null %d\n", a == NULL);
 }
 
 void undef(char *name){
@@ -89,6 +91,8 @@ void undef(char *name){
            hashtab[hashval] = NULL;
            if(strcmp(np->name, name) != 0){
                install(np->name, np->defn);
+               //no idea if this is needed or should be here
+               free((void *) np);
            }
        }
        while((np = np->next) != NULL);
