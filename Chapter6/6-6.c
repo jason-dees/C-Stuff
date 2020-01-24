@@ -4,7 +4,7 @@ struct nlist{
     char *defn;
 };
 
-#define MAXWORD 100
+#define MAXWORD 1000
 
 #include <ctype.h>
 #include <string.h>
@@ -107,21 +107,54 @@ struct nlist *getdefine(char *line){
     {
     }
     *--wp = '\0';
-    printf("Name: %s\n", name);
     //end of name
     //start of definition
     lim = MAXWORD;
     wp = (char *)defn;
-    while (--lim > 0 && (*wp++ = *line++))
+    while (--lim > 0 && (*wp++ = *line++) && *line!='\n')
     {
     }
-    *--wp = '\0';
-    printf("Definition: %s\n", defn);
+    *wp = '\0';
     //end of definition
 
     p->name = strdup(name);
     p->defn = strdup(defn);
     return p;
+}
+
+char *replaceDefnNames(char *iline){
+    //Cycle through the line and for each word look it up in the hash
+    //if it exists, copy it to the newline
+    //otherwise copy characters to newline
+    char fixedLine[MAXWORD];
+    char word[MAXWORD];
+    char *newLine = fixedLine;
+    char *line = iline;
+
+    struct nlist *found;
+    while (*line != '\0')
+    {
+        if(isspace(*line)){
+            *newLine++ = *line++;
+        }
+        else{
+           char *wp = word;
+            while(!isspace(*wp++ = *line++) && *line != '\0'){
+            }
+            *--wp = '\0';
+            line--;
+            wp = word;
+            if((found = lookup(wp)) != NULL && word[0] != '\0'){
+                strcpy(word, found->defn);
+            }
+            while((*newLine++ = *wp++) != '\0'){}
+            newLine--;
+        }
+    }
+    *++newLine = '\0';
+    newLine = fixedLine;
+    strcpy(iline, newLine);
+    return newLine;
 }
 
 int main(){
@@ -133,6 +166,10 @@ int main(){
         if(strncmp("#define", line, 7) == 0){
             struct nlist *definition = getdefine(line);
             install(definition->name, definition->defn);
+        }
+        else{
+            replaceDefnNames(line);
+            printf("%s", line);
         }
     }
 }
