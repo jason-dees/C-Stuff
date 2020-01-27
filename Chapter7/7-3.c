@@ -1,5 +1,11 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
+
+#define LPAD 0
+#define RPAD 1
+#define PAD 2
+#define TRIM 3
 /* minprintf: minimal printf wiht variable arguments list */
 void minprintf(char *fmt, ...){
     va_list ap; /* points to each unnamed arg in turn */
@@ -7,11 +13,15 @@ void minprintf(char *fmt, ...){
     int ival;
     double dval;
     va_start(ap, fmt);
+    int trim = 0, rpad = 0, lpad = 0, printedchars = 0;
+    int numtype = LPAD; //also min length?
+    int hitPercent = 0;
     for(p = fmt; *p; p++){
-        if(*p != '%') {
+        if(*p != '%' && hitPercent == 0) {
             putchar(*p);
             continue;
         }
+        hitPercent = 1;
         switch(*++p) {
             case '1':
             case '2':
@@ -23,10 +33,28 @@ void minprintf(char *fmt, ...){
             case '8':
             case '9':
             case '0':
+                if(numtype == TRIM){
+                    trim = trim*10 + atoi(p);
+                }
+                else if(numtype == LPAD) {
+                    lpad = lpad*10 + atoi(p);
+                }
+                else if(numtype == RPAD) {
+                    rpad = rpad*10 + atoi(p);
+                }
+                p--;
                 break;
-            case '.'://total length
+            case '.':
+                //(string) denotes characters from string to take
+                //(int) denotes pad front with 0s until length is met
+                numtype = TRIM;
+                p--;
                 break;
-            case '-'://pad end with spaces
+            case '-':
+                //(string) pad end with spaces
+                //(int) pad front with 0;
+                numtype = RPAD;
+                p--;
                 break;
             case 'c':
                 ival = va_arg(ap, int);
@@ -42,12 +70,29 @@ void minprintf(char *fmt, ...){
                 printf("%f", dval);
                 break;
             case 's':
-                for(sval = va_arg(ap, char *); *sval; sval++) {
-                    putchar(*sval);
+                printf("\nt%d l%d r%d \n", trim, lpad, rpad);
+                sval = va_arg(ap, char *);
+                int len = strlen(sval);
+                while(len++ < lpad){
+                    putchar(' ');
                 }
+                while(*sval && printedchars<trim){
+                    putchar(*sval++);
+                    printedchars++;
+                }
+                while(printedchars++ < rpad){
+                    putchar(' ');
+                }
+                hitPercent = 0, trim = 0, lpad = 0, rpad = 0;
                 break;
             default:
                 putchar(*p);
+                trim = 0;
+                rpad = 0;
+                lpad = 0;
+                printedchars = 0;
+                numtype = LPAD;
+                hitPercent = 0;
                 break;
         }
     }
@@ -60,14 +105,9 @@ Revise minprintf to handle more of the other facilities of printf.
 
 int main(int argc, char *argv[]) {
     char *indexStr = "1234567890";
-    printf("1 %-5.10s:\n", indexStr);
-    printf("2 %-15s:\n", indexStr);
-    printf("3 %-15d:\n", 5);
-    printf("4 %-10.5d:\n", 5);
-    printf("5 %10.5d:\n", 5);
-    printf("6 %-10.10s:\n", indexStr);
-    printf("7 %10.10s:\n", indexStr);
-    printf("8 %.20s:\n", indexStr);
-    printf("9 %-20s:\n", indexStr);
-    printf("0 %20s:\n", indexStr);
+    printf("%3.5s:\n", "a");
+    minprintf("%3.5s:\n", "b");
+    printf("---------------\n");
+    printf("%.5s:\n", indexStr);//min characters
+    minprintf("%.5s:\n", indexStr);//min characters
 }
