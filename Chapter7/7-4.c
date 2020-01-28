@@ -2,6 +2,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdarg.h>
+#include <stdlib.h>
 #define MAXWORD 1000
 /*
 page 159
@@ -31,52 +32,54 @@ void minscanf(char *fmt, ...){
     va_start(ap, fmt);
 
     char line[MAXWORD];
-    while(getLine(line, MAXWORD) == 0 || isspace(*line)){
+    while(getLine(line, MAXWORD) == 0){
         //i want to spin here
     }
-    char words[MAXWORD][MAXWORD];
     char word[MAXWORD];
     char *wordptr = word;
-    char **wordsptr = words;
-    for(char *lineiter = line; *lineiter > 0; lineiter++){
-        if(isspace(*lineiter)){
-            *wordptr = '\0';
-            if(strlen(word) > 0){
-                *wordsptr++ = word;
-            }
-            wordptr = word;
-            continue;
-        }
-        *wordptr++ = *lineiter;
+    char *lineiter = line;
+
+    for(;isspace(*lineiter); lineiter++){
     }
-    wordsptr = words;
-    //I can cycle through 1 then the other, ignoring spaces
-    for(char *lineiter = fmt; *lineiter > 0; lineiter++) {
-        if(*lineiter != '%'){
+    for(char *fmtiter = fmt; *fmtiter > 0; fmtiter++) {
+        if(*fmtiter != '%'){
             continue;
         }
-        switch(*++lineiter){
+        for(; *lineiter; lineiter++){
+            if(isspace(*lineiter)){
+                *wordptr = '\0';
+                wordptr = word;
+                break;
+            }
+            *wordptr++ = *lineiter;
+        }
+        switch(*++fmtiter){
             case 'd':
                 ival = va_arg(ap, int *);
+                *ival = atoi(word);
                 break;
             case 's':
                 sval = va_arg(ap, char *);
-                printf("%s", *(wordsptr));
-                sval = *wordsptr++;
+                strcpy(sval, word);
                 break;
             default:
-                printf("%c ", *lineiter);
+                printf("%c ", *fmtiter);
                 break;
+        }
+        *wordptr = '\0';
+        for(;isspace(*lineiter); lineiter++){
         }
     }
 
     va_end(ap);/* clean up when done */
 }
+
 int main(int argc, char *argv[]){
-    char *a, *b, *c;
+    int a = 17;
+    char b[5], c[5];
     // scanf("%d %d %d", &a, &b, &c);
     // printf("printing: %d %d %d\n", a, b, c);
-    minscanf("%s %s %s", a, b, c);
-    printf("printing: %s %s %s\n", a, b, c);
+    minscanf("%d %s %s", &a, b, c);
+    printf("printing: %d %s %s\n", a, b, c);
     return 0;
 }
