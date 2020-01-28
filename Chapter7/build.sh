@@ -1,6 +1,6 @@
 #!/bin/bash
 chapter=7
-SHARED=""
+SHARED="./Shared/stack.c"
 echo "including: ${SHARED}"
 case "${1}-${2}" in
     "7-1")
