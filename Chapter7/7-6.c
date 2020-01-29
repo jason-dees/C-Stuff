@@ -53,6 +53,8 @@ int main(int argc, char *argv[]){
     else if(linesSame == 1 && eofOne == eofTwo == 1){
         printf("Files appear to be the same\n");
     }
+    fclose(fpOne);
+    fclose(fpTwo);
 
     return 0;
 }

@@ -2,7 +2,7 @@
 #include <string.h>
 /*
 page 165
-Modify the pattern finding program of CHapter 5 to take its input from a set of named files, or, it nof iles are named
+Modify the pattern finding program of Chapter 5 to take its input from a set of named files, or, it no files are named
 as arguments, from the standard input. Should the file name be printed when a matching line is found?
 */
 #define MAXLINE 1000
@@ -40,4 +40,5 @@ void searchFile(FILE *fp, char *pattern, char *fileName){
         }
         lineCounter++;
     }
+    fclose(fp);
 }
